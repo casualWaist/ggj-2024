@@ -131,7 +131,7 @@ function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
             {/* Floor */}
             <RigidBody sensor
                        onIntersectionEnter={handleCollision}
-                       userData={words[0]}
+                       userData={{n: words[0]}}
                        type="fixed"
                        position={[0, -4.5, 0]}>
                 <mesh>
@@ -141,7 +141,7 @@ function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
             </RigidBody>
             <RigidBody sensor
                        onIntersectionEnter={handleCollision}
-                       userData={words[1]}
+                       userData={{n: words[1]}}
                        type="fixed"
                        position={[-3, -4.5, 0]}>
                 <mesh>
@@ -151,7 +151,7 @@ function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
             </RigidBody>
             <RigidBody sensor
                        onIntersectionEnter={handleCollision}
-                       userData={words[2]}
+                       userData={{n: words[2]}}
                        type="fixed"
                        position={[3, -4.5, 0]}>
                 <mesh>
