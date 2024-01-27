@@ -1,16 +1,33 @@
-import {Float, Torus} from "@react-three/drei"
-import {useEffect, useRef} from "react"
-import gsap from "gsap"
+import {useEffect, useState, useRef, useContext} from "react"
+import {useThree, useFrame} from "@react-three/fiber"
+import { GameContext } from "./CaptureWrapper"
 
-export default function Title() {
-    const titleRef = useRef<THREE.Mesh>(null!)
+export default function Story() {
+    const camera = useThree(({camera}) => camera)
+    const [waiting, setWaiting] = useState<boolean>(false)
+    const [gameState, setGameState] = useContext(GameContext)
+
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            const tl = gsap.timeline()
-            tl.to(titleRef.current.position, {y: 0, duration: 1})
+        const canvasElement = document.querySelector('canvas')
+
+        canvasElement!.addEventListener('pointerdown', () => {
+            if (waiting) {
+                setWaiting(false)
+                setGameState("game")
+            }
         })
-        return () => ctx.kill(false)
-    }, [])
-    
-    return <Float><Torus ref={titleRef} args={[1, 0.5, 16, 100]} position={[0, 5, 0]} rotation={[0, 0, 0]}/></Float>
+    }, []);
+
+    useFrame(() => {
+        if (true) {
+
+        }
+    })
+
+    return <>
+        <mesh ref={boxRef} position={[2, 2, 10]}>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color="hotpink" />
+        </mesh>
+    </>
 }
