@@ -5,7 +5,8 @@ import * as THREE from "three"
 import vertex from './shaders/vertex.glsl'
 // @ts-expect-error/vite import problem
 import fragment from './shaders/fragment.glsl'
-import {shaderMaterial} from "@react-three/drei"
+import {PerspectiveCamera, shaderMaterial} from "@react-three/drei"
+import Plinko from "./components/Plinko.tsx";
 
 const MarchReps = shaderMaterial({
         time: 0,
@@ -37,13 +38,17 @@ Shader.displayName = 'Shader'
 function App() {
 
     return <>
-            <mesh>
-                <planeGeometry args={[1, 1, 1, 1]}/>
-                {/* @ts-expect-error/it's complicated */}
-                <Shader time={0}/>
-            </mesh>
-            <color attach="background" args={['hotpink']} />
-            <ambientLight />
+        <mesh position={[0, 1, 0]}>
+            <planeGeometry args={[1, 1, 1, 1]}/>
+            {/* @ts-expect-error/it's complicated */}
+            <Shader time={0}/>
+        </mesh>
+
+        <Plinko />
+
+        <color attach="background" args={['hotpink']} />
+        <ambientLight />
+        <PerspectiveCamera makeDefault position={[0, 0, 10]} />
     </>
 }
 
