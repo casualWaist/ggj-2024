@@ -11,6 +11,14 @@ import {Canvas} from "@react-three/fiber"
 type GameState = [ 'pregame' | 'story' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'story' | 'game' | 'end'>>]
 export const GameContext = createContext<GameState>(null!)
 
+//Global variables
+export const chosenWords: string[][] = [];
+export const nouns: string[] = []
+export const adjectives: string[] = []
+export const verbs: string[] = []
+export const adverbs: string[] = []
+
+
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     const [ gameState, setGameState ] = useState<'pregame' | 'story' | 'game' | 'end' >('story')
