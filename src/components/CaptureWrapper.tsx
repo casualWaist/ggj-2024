@@ -1,9 +1,21 @@
-import React from "react"
+import React, {createContext, Dispatch, SetStateAction, useEffect, useState} from "react"
 import {Canvas} from "@react-three/fiber"
 
+type GameState = [ 'pregame' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'game' | 'end'>>]
+export const GameContext = createContext<GameState>(null!)
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
+    const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('pregame')
+
+    useEffect(() => {
+        setTimeout(() => {
+            setGameState('game')
+        }, 3000)
+        setTimeout(() => {
+            setGameState('end')
+        }, 9000)
+    }, []);
 
     const on_media_recorder_stop = (chunks: Blob[]) => {
         const blob = new Blob(chunks, { type: "video/webm" })
@@ -32,10 +44,10 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         }, 10000)
     }
 
-    return <>
+    return <GameContext.Provider value={[gameState, setGameState]}>
         <Canvas ref={canvasRef} style={{width: '80%', height: '80%'}}>
             {children}
         </Canvas>
-        <button onClick={ capture }>Capture</button>
-    </>
+        { gameState === 'end' ? <button onClick={capture}>Capture</button> : null }
+    </GameContext.Provider>
 }
