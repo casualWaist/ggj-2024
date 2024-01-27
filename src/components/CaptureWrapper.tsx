@@ -1,3 +1,10 @@
+
+/*
+    This component is a wrapper for the game. It provides a canvas element that is used to capture the game.
+    It also provides a context that is used to control the game state.
+    setGameState is basically a function that can be called anywhere in the app to change the game state.
+*/
+
 import React, {createContext, Dispatch, SetStateAction, useEffect, useState} from "react"
 import {Canvas} from "@react-three/fiber"
 
@@ -8,6 +15,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('pregame')
 
+    // Placeholder for changing game state
     useEffect(() => {
         setTimeout(() => {
             setGameState('game')
@@ -17,6 +25,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         }, 9000)
     }, []);
 
+    // Called when recording is stopped to download the video
     const on_media_recorder_stop = (chunks: Blob[]) => {
         const blob = new Blob(chunks, { type: "video/webm" })
         const url = URL.createObjectURL(blob)

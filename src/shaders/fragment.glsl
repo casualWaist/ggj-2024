@@ -1,3 +1,8 @@
+/*
+    Fragment shader is responsible for coloring each pixel of the screen.
+    This case is using raymarching to render a sphere with some repetition.
+*/
+
 varying vec2 vUv;
 uniform float time;
 

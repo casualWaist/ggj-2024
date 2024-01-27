@@ -1,3 +1,9 @@
+/*
+    This will be the game portion of the project.
+    I just set up a very basic plinko board.
+    Play with restitution, friction, and gravity to get the desired effect.
+*/
+
 import {CapsuleCollider, CuboidCollider, Physics, RapierRigidBody, RigidBody} from "@react-three/rapier"
 import {useEffect, useRef} from "react"
 
@@ -10,6 +16,11 @@ export default function Plinko() {
         }, 100)
     }, []);
 
+
+    /*
+        The Physics Engine is Rapier, which is a port of PhysX to Rust.
+        Debug mode is enabled, so you can see the physics bodies.
+    */
     return <Physics debug gravity={[0, -1, 0]}>
 
         {/* Boundaries */}
