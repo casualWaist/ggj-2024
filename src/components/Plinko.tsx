@@ -4,9 +4,16 @@
     Play with restitution, friction, and gravity to get the desired effect.
 */
 
-import {CapsuleCollider, CuboidCollider, Physics, RapierRigidBody, RigidBody} from "@react-three/rapier"
+import {
+    CapsuleCollider,
+    CuboidCollider,
+    IntersectionEnterPayload,
+    Physics,
+    RapierRigidBody,
+    RigidBody
+} from "@react-three/rapier"
 import {useEffect, useRef, useState} from "react"
-import {useFrame, useThree} from "@react-three/fiber";
+import {useFrame, useThree} from "@react-three/fiber"
 
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
@@ -53,16 +60,9 @@ export default function Plinko() {
             </mesh>
         </RigidBody> : null }
 
-        <Bumpers n={5}/>
+        <Bumpers n={3}/>
 
-        {/* Floor */}
-
-        <RigidBody type="fixed" position={[0, -4.5, 0]}>
-            <mesh>
-                <boxGeometry args={[9, 1]} />
-                <meshStandardMaterial color="gray"/>
-            </mesh>
-        </RigidBody>
+        <Surfaces n={3} words={['banana', 'doughnut', 'hotdog']}/>
 
     </Physics>
 }
@@ -82,35 +82,83 @@ function Bumper({position}: {position: [number, number, number]}) {
     </RigidBody>
 }
 
+
+
 function Bumpers({n}: {n: 3 | 4 | 5}) {
-    if (n === 5) return <>
-        <Bumper position={[0, 0, 0]}/>
-        <Bumper position={[-1.5, -1.5, 0]}/>
-        <Bumper position={[1.5, -1.5, 0]}/>
-        <Bumper position={[-3, -3.5, 0]}/>
-        <Bumper position={[0, -3.5, 0]}/>
-        <Bumper position={[3, -3.5, 0]}/>
-        <Bumper position={[-4, -1.5, 0]} />
-        <Bumper position={[4, -1.5, 0]} />
-    </>
-    if (n === 4) return <>
-        <Bumper position={[0, 0, 0]}/>
-        <Bumper position={[-1.5, -1.5, 0]}/>
-        <Bumper position={[1.5, -1.5, 0]}/>
-        <Bumper position={[-3, -3.5, 0]}/>
-        <Bumper position={[0, -3.5, 0]}/>
-        <Bumper position={[3, -3.5, 0]}/>
-        <Bumper position={[-4, -1.5, 0]} />
-        <Bumper position={[4, -1.5, 0]} />
-    </>
-    if (n === 3) return <>
-        <Bumper position={[0, 0, 0]}/>
-        <Bumper position={[-1.5, -1.5, 0]}/>
-        <Bumper position={[1.5, -1.5, 0]}/>
-        <Bumper position={[-3, -3.5, 0]}/>
-        <Bumper position={[0, -3.5, 0]}/>
-        <Bumper position={[3, -3.5, 0]}/>
-        <Bumper position={[-4, -1.5, 0]} />
-        <Bumper position={[4, -1.5, 0]} />
-    </>
+    if (n === 3) {
+        return <>
+            {/* 1st row */}
+            <Bumper position={[-2.5, 1.5, 0]} />
+            <Bumper position={[2.5, 1.5, 0]} />
+            {/* 2st row */}
+            {/* <Bumper position={[-3, 0, 0]} /> */}
+            <Bumper position={[0, 0, 0]} />
+            {/* <Bumper position={[3, 0, 0]} /> */}
+            {/* 3nd row */}
+            <Bumper position={[-1.5, -1.5, 0]} />
+            <Bumper position={[1.5, -1.5, 0]} />
+            <Bumper position={[-4, -1.5, 0]} />
+            <Bumper position={[4, -1.5, 0]} />
+            {/* bottom row */}
+            <Bumper position={[-1.5, -3.5, 0]} />
+            <Bumper position={[1.5, -3.5, 0]} />
+
+        </>
+    }
+}
+
+function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
+    const handleCollision = (e: IntersectionEnterPayload) => {
+        console.log(e, e.target.rigidBody?.userData)
+    }
+
+    if (n === 3) {
+        return <>
+            {/* Left Wall */}
+            <RigidBody type='fixed' position={[-5, 0, 0]}>
+                <mesh>
+                    <boxGeometry args={[1, 9]} />
+                    <meshBasicMaterial color="gray" />
+                </mesh>
+            </RigidBody>
+            {/* Right Wall */}
+            <RigidBody type='fixed' position={[5, 0, 0]}>
+                <mesh>
+                    <boxGeometry args={[1, 9]} />
+                    <meshBasicMaterial color="gray" />
+                </mesh>
+            </RigidBody>
+            {/* Floor */}
+            <RigidBody sensor
+                       onIntersectionEnter={handleCollision}
+                       userData={words[0]}
+                       type="fixed"
+                       position={[0, -4.5, 0]}>
+                <mesh>
+                    <boxGeometry args={[3, 1]} />
+                    <meshStandardMaterial color="gray"/>
+                </mesh>
+            </RigidBody>
+            <RigidBody sensor
+                       onIntersectionEnter={handleCollision}
+                       userData={words[1]}
+                       type="fixed"
+                       position={[-3, -4.5, 0]}>
+                <mesh>
+                    <boxGeometry args={[3, 1]} />
+                    <meshStandardMaterial color="gray"/>
+                </mesh>
+            </RigidBody>
+            <RigidBody sensor
+                       onIntersectionEnter={handleCollision}
+                       userData={words[2]}
+                       type="fixed"
+                       position={[3, -4.5, 0]}>
+                <mesh>
+                    <boxGeometry args={[3, 1]} />
+                    <meshStandardMaterial color="gray"/>
+                </mesh>
+            </RigidBody>
+        </>
+    }
 }
