@@ -9,9 +9,9 @@ import { useContext} from "react"
 import {GameContext} from "./components/CaptureWrapper.tsx"
 import {PerspectiveCamera} from "@react-three/drei"
 import Plinko from "./components/Plinko.tsx"
-import AniCube from "./components/AnimationEx.tsx"
+import AniCube from "./components/Result.tsx"
 import Title from "./components/Title.tsx"
-import {Shader} from "./components/Shader.tsx"
+import Story from "./components/Story.tsx"
 
 function App() {
 
@@ -19,13 +19,10 @@ function App() {
 
 
     return <>
-        <mesh position={[0, 1, 0]}>
-            <planeGeometry args={[1, 1, 1, 1]}/>
-            {/* @ts-expect-error/it's complicated */}
-            <Shader time={0}/>
-        </mesh>
 
         { gameState === 'pregame' ? <Title /> : null }
+
+        { gameState === 'story' ? <Story /> : null }
 
         { gameState === 'game' ? <Plinko/> : null}
 

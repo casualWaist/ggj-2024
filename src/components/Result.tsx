@@ -6,10 +6,18 @@ import {useEffect, useRef} from "react"
 import {useFrame} from "@react-three/fiber"
 import * as THREE from "three"
 import gsap from "gsap"
-import Banana from "./Banana.tsx";
+import Banana from "./Banana.tsx"
+import Fish from "./Fish.tsx"
+import FishWithLegs from "./Fishwithlegs.tsx"
+import Knife from "./Knife.tsx"
+import Cabbage from "./Cabbage.tsx"
 
 export default function AniCube() {
     const bananaRef = useRef<THREE.Mesh>(null!)
+    const fishRef = useRef<THREE.Group>(null!)
+    const fishLegsRef = useRef<THREE.Group>(null!)
+    const cabbageRef = useRef<THREE.Group>(null!)
+    const knifeRef = useRef<THREE.Group>(null!)
 
     /*
         useEffect is used to set up the animation. The function is called on mount.
@@ -34,10 +42,18 @@ export default function AniCube() {
 
     useFrame((_state, delta,) => {
         bananaRef.current.rotation.z += Math.sin(delta)
+        fishRef.current.rotation.y += Math.sin(delta)
+        fishLegsRef.current.rotation.y += Math.sin(delta)
+        knifeRef.current.rotation.y += Math.sin(delta)
+        cabbageRef.current.rotation.y += Math.sin(delta)
     })
 
     return <>
         {/* @ts-expect-error/hard */}
         <Banana ref={bananaRef} position={[2, 2, 0]}/>
+        <Fish ref={fishRef} position={[5, 0, 0]}/>
+        <FishWithLegs ref={fishLegsRef} position={[4, -2, 0]}/>
+        <Knife ref={knifeRef} position={[0, -2, 0]}/>
+        <Cabbage ref={cabbageRef} position={[-3, -3, 0]}/>
     </>
 }

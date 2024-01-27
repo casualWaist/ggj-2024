@@ -8,12 +8,13 @@
 import React, {createContext, Dispatch, SetStateAction, useEffect, useRef, useState} from "react"
 import {Canvas} from "@react-three/fiber"
 
-type GameState = [ 'pregame' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'game' | 'end'>>]
-export const GameContext = createContext<GameState>(null!)
+type GameState = 'pregame' | 'story' | 'game' | 'end'
+type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
+export const GameContext = createContext<GameStateContext>(null!)
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('pregame')
+    const [ gameState, setGameState ] = useState<GameState>('pregame')
     const music = useRef<HTMLAudioElement>(null!)
 
     // Placeholder for changing game state
@@ -24,7 +25,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
 
     const handClick = () => {
         music.current.play()
-        setGameState('game')
+        setGameState('story')
     }
 
     // Called when recording is stopped to download the video
