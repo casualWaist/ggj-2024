@@ -47,6 +47,10 @@ export default function Plinko() {
     </Physics>
 }
 
+function ChooseWord() {
+    return 
+}
+
 function Bumper({position}: {position: [number, number, number]}) {
     return <RigidBody position={position}
                       rotation={[-Math.PI * 0.5, 0, 0]}
