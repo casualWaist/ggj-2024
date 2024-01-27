@@ -1,15 +1,1 @@
-Sticky
-Gooey
-Tasty
-Slimy
-Round
-Massive
-Tiny
-Chewy
-Cheesy
-Peppery
-Noisy
-Smelly
-Stinky
-Snooty
-Stumpy
+Sticky, Gooey, Tasty, Slimy, Round, Massive, Tiny, Chewy, Cheesy, Peppery, Noisy, Smelly, Stinky, Snooty, Stumpy
