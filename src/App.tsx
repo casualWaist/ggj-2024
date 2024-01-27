@@ -1,5 +1,5 @@
-import {Canvas, extend, MaterialNode, useFrame} from "@react-three/fiber"
-import {forwardRef, useImperativeHandle, useRef} from "react"
+import { extend, MaterialNode, useFrame } from "@react-three/fiber"
+import { forwardRef, useImperativeHandle, useRef } from "react"
 import * as THREE from "three"
 // @ts-expect-error/vite import problem
 import vertex from './shaders/vertex.glsl'
@@ -36,8 +36,7 @@ Shader.displayName = 'Shader'
 
 function App() {
 
-    return (
-        <Canvas style={{width: '80%', height: '80%'}}>
+    return <>
             <mesh>
                 <planeGeometry args={[1, 1, 1, 1]}/>
                 {/* @ts-expect-error/it's complicated */}
@@ -45,8 +44,7 @@ function App() {
             </mesh>
             <color attach="background" args={['hotpink']} />
             <ambientLight />
-        </Canvas>
-    )
+    </>
 }
 
 export default App
