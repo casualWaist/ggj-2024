@@ -8,12 +8,12 @@
 import React, {createContext, Dispatch, SetStateAction, useEffect, useState} from "react"
 import {Canvas} from "@react-three/fiber"
 
-type GameState = [ 'pregame' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'game' | 'end'>>]
+type GameState = [ 'pregame' | 'story' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'story' | 'game' | 'end'>>]
 export const GameContext = createContext<GameState>(null!)
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('game')
+    const [ gameState, setGameState ] = useState<'pregame' | 'story' | 'game' | 'end' >('game')
 
     // Placeholder for changing game state
 

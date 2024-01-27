@@ -6,12 +6,13 @@
 
 import {CapsuleCollider, CuboidCollider, Physics, RapierRigidBody, RigidBody} from "@react-three/rapier"
 import {useEffect, useRef} from "react"
-import {useThree} from "@react-three/fiber"
+import {useThree, useFrame} from "@react-three/fiber"
 
 export default function Plinko() {
-    const size = useThree(({size}) => size)
+    const camera = useThree(({camera}) => camera)
     const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) ) + min
     const cubeRef = useRef<RapierRigidBody>(null!)
+
 
     useEffect(() => {
         setTimeout(() =>{
@@ -32,7 +33,7 @@ export default function Plinko() {
             <CuboidCollider position={[0, 0, 1]} args={[4, 4, 0.5]}/>
         </RigidBody>
 
-        <RigidBody mass={25} ref={cubeRef} position={[randomNumber(-3.85, 3.85), 0, 0]} friction={0}>
+        <RigidBody mass={25} ref={cubeRef} position={[randomNumber(-3.85, 3.85), 5, 0]} friction={0}>
             <mesh>
                 <boxGeometry args={[1, 1, 1, 1]}/>
                 <meshStandardMaterial color="hotpink"/>

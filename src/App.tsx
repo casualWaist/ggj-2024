@@ -8,6 +8,7 @@
 import { useContext} from "react"
 import {GameContext} from "./components/CaptureWrapper.tsx"
 import {PerspectiveCamera} from "@react-three/drei"
+import Story from './components/Story.tsx'
 import Plinko from "./components/Plinko.tsx"
 import AniCube from "./components/AnimationEx.tsx"
 import Title from "./components/Title.tsx"
@@ -25,6 +26,8 @@ function App() {
         </mesh>
 
         { gameState === 'pregame' ? <Title /> : null }
+
+        { gameState === 'story' ? <Story /> : null }
 
         { gameState === 'game' ? <Plinko/> : null}
 
