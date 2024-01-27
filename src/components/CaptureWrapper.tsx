@@ -1,4 +1,3 @@
-
 /*
     This component is a wrapper for the game. It provides a canvas element that is used to capture the game.
     It also provides a context that is used to control the game state.

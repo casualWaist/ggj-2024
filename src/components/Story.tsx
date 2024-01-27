@@ -1,10 +1,10 @@
 import {useEffect, useState, useContext} from "react"
 import {useThree, useFrame} from "@react-three/fiber"
 import { Text, Float } from "@react-three/drei"
-import { GameContext, chosenWords } from "./CaptureWrapper"
+import { GameContext, chosenWords, script, nouns, adjectives, verbs, adverbs } from "./CaptureWrapper"
 
 export default function Story() {
-    const camera = useThree(({camera}) => camera)
+    //const camera = useThree(({camera}) => camera)
     const [waiting, setWaiting] = useState<boolean>(false)
     const [gameState, setGameState] = useContext(GameContext)
 
@@ -36,8 +36,7 @@ export default function Story() {
                 textAlign="center"
                 position={[0,0,0]}
                 >
-                {someText[0]}
+                {chosenWords[0]}
             </Text>
             </Float>
 }
-        
