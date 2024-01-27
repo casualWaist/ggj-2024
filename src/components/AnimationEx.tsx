@@ -6,9 +6,10 @@ import {useEffect, useRef} from "react"
 import {useFrame} from "@react-three/fiber"
 import * as THREE from "three"
 import gsap from "gsap"
+import Banana from "./Banana.tsx";
 
 export default function AniCube() {
-    const boxRef = useRef<THREE.Mesh>(null!)
+    const bananaRef = useRef<THREE.Mesh>(null!)
 
     /*
         useEffect is used to set up the animation. The function is called on mount.
@@ -19,8 +20,8 @@ export default function AniCube() {
     useEffect(() => {
         const ctx = gsap.context(() => {
             const tl = gsap.timeline()
-            tl.to(boxRef.current.position, {z: 0, duration: 1})
-            tl.to(boxRef.current.position, {x: -5, duration: 5})
+            tl.to(bananaRef.current.position, {z: 0, duration: 1})
+            tl.to(bananaRef.current.position, {x: -5, duration: 5})
         })
         return () => ctx.kill(false)
     }, [])
@@ -32,13 +33,11 @@ export default function AniCube() {
     */
 
     useFrame((_state, delta,) => {
-        boxRef.current.rotation.z += Math.sin(delta)
+        bananaRef.current.rotation.z += Math.sin(delta)
     })
 
     return <>
-        <mesh ref={boxRef} position={[2, 2, 10]}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color="hotpink" />
-        </mesh>
+        {/* @ts-expect-error/hard */}
+        <Banana ref={bananaRef} position={[2, 2, 0]}/>
     </>
 }
