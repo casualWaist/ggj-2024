@@ -12,28 +12,21 @@ import {
     RapierRigidBody,
     RigidBody
 } from "@react-three/rapier"
-import {useEffect, useRef, useState} from "react"
-import {useFrame, useThree} from "@react-three/fiber"
+import {useContext, useRef, useState} from "react"
+import {ThreeEvent, useFrame} from "@react-three/fiber"
+import {GameContext} from "./CaptureWrapper.tsx";
 
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
     const [ go, setGo ] = useState<boolean>(false)
     const accelerate = useRef<boolean>(false)
     const xPos = useRef<number>(0)
-    const size = useThree(({size}) => size)
 
-    useEffect(() => {
-        const canvasElement = document.querySelector('canvas')
-        canvasElement!.addEventListener('pointerdown', (e) => {
-            xPos.current = (e.x / size.width) * 4 - 4
-            console.log(size.width, e.x, xPos.current)
-            setGo(true)
-            accelerate.current = true
-        })
-        canvasElement!.addEventListener('pointerup', () => {
-            accelerate.current = false
-        })
-    }, []);
+    const handleClick = (e: ThreeEvent<MouseEvent>) => {
+        console.log(e)
+        if (e.uv) { xPos.current = e.point.x }
+        setGo(true)
+    }
 
     useFrame(() => {
         if (go && accelerate.current) {
@@ -47,13 +40,18 @@ export default function Plinko() {
     */
     return <Physics debug gravity={[0, -1, 0]}>
 
+        { go ? null :<mesh onClick={handleClick}>
+            <planeGeometry args={[100, 10, 1, 1]}/>
+            <meshStandardMaterial color="gray" transparent opacity={0}/>
+        </mesh> }
+
         {/* Boundaries */}
         <RigidBody type="fixed">
             <CuboidCollider position={[0, 0, -1]} args={[4, 4, 0.5]}/>
             <CuboidCollider position={[0, 0, 1]} args={[4, 4, 0.5]}/>
         </RigidBody>
 
-        { go ? <RigidBody mass={25} ref={cubeRef} position={[xPos.current, 5, 0]} friction={0}>
+        { go ? <RigidBody mass={25} ref={cubeRef} position={[xPos.current, 4, 0]} friction={0}>
             <mesh>
                 <boxGeometry args={[1, 1, 1, 1]}/>
                 <meshStandardMaterial color="hotpink"/>
@@ -108,8 +106,11 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
 }
 
 function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
+    const [ _gameState, setGameState ] = useContext(GameContext)
+
     const handleCollision = (e: IntersectionEnterPayload) => {
         console.log(e, e.target.rigidBody?.userData)
+        setGameState('end')
     }
 
     if (n === 3) {
@@ -123,6 +124,13 @@ function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
             </RigidBody>
             {/* Right Wall */}
             <RigidBody type='fixed' position={[5, 0, 0]}>
+                <mesh>
+                    <boxGeometry args={[1, 9]} />
+                    <meshBasicMaterial color="gray" />
+                </mesh>
+            </RigidBody>
+            {/* Ceiling */}
+            <RigidBody type='fixed' position={[0, 5, 0]} rotation={[0, 0, Math.PI * 0.5]}>
                 <mesh>
                     <boxGeometry args={[1, 9]} />
                     <meshBasicMaterial color="gray" />

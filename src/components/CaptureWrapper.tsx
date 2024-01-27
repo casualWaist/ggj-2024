@@ -5,7 +5,7 @@
     setGameState is basically a function that can be called anywhere in the app to change the game state.
 */
 
-import React, {createContext, Dispatch, SetStateAction, useEffect, useState} from "react"
+import React, {createContext, Dispatch, SetStateAction, useEffect, useRef, useState} from "react"
 import {Canvas} from "@react-three/fiber"
 
 type GameState = [ 'pregame' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'game' | 'end'>>]
@@ -14,16 +14,16 @@ export const GameContext = createContext<GameState>(null!)
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('pregame')
-    let music: HTMLAudioElement
+    const music = useRef<HTMLAudioElement>(null!)
 
     // Placeholder for changing game state
     useEffect(() => {
-        music = new Audio('/Jazz_Waffle.wav')
-        music.loop = true
+        music.current = new Audio('/Jazz_Waffle.wav')
+        music.current.loop = true
     }, [])
 
     const handClick = () => {
-        music.play()
+        music.current.play()
         setGameState('game')
     }
 
@@ -56,7 +56,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     }
 
     return <GameContext.Provider value={[gameState, setGameState]}>
-        <Canvas ref={canvasRef} style={{width: '80%', height: '80%'}}>
+        <Canvas ref={canvasRef} style={{width: '700px', height: '80%'}}>
             {children}
         </Canvas>
         { gameState === 'pregame' ? <button onClick={handClick}>Start</button> : null }
