@@ -106,11 +106,11 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
 }
 
 function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
-    const [ _gameState, setGameState ] = useContext(GameContext)
+    const  setGameState  = useContext(GameContext)
 
     const handleCollision = (e: IntersectionEnterPayload) => {
         console.log(e, e.target.rigidBody?.userData)
-        setGameState('end')
+        setGameState[1]('end')
     }
 
     if (n === 3) {
