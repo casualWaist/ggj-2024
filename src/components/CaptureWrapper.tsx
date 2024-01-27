@@ -13,17 +13,10 @@ export const GameContext = createContext<GameState>(null!)
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('pregame')
+    const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('game')
 
     // Placeholder for changing game state
-    useEffect(() => {
-        setTimeout(() => {
-            setGameState('game')
-        }, 3000)
-        setTimeout(() => {
-            setGameState('end')
-        }, 9000)
-    }, []);
+
 
     // Called when recording is stopped to download the video
     const on_media_recorder_stop = (chunks: Blob[]) => {

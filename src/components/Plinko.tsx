@@ -8,6 +8,7 @@ import {CapsuleCollider, CuboidCollider, Physics, RapierRigidBody, RigidBody} fr
 import {useEffect, useRef} from "react"
 
 export default function Plinko() {
+    const randomNumber = Math.floor(Math.random() * 5) + 1
     const cubeRef = useRef<RapierRigidBody>(null!)
 
     useEffect(() => {
@@ -29,7 +30,7 @@ export default function Plinko() {
             <CuboidCollider position={[0, 0, 1]} args={[4, 4, 0.5]}/>
         </RigidBody>
 
-        <RigidBody mass={20} ref={cubeRef} position={[0, 5, 0]} friction={0}>
+        <RigidBody mass={25} ref={cubeRef} position={[randomNumber, 5, 0]} friction={0}>
             <mesh>
                 <boxGeometry args={[1, 1, 1, 1]}/>
                 <meshStandardMaterial color="hotpink"/>
@@ -42,6 +43,15 @@ export default function Plinko() {
         <Bumper position={[-3, -3.5, 0]}/>
         <Bumper position={[0, -3.5, 0]}/>
         <Bumper position={[3, -3.5, 0]}/>
+        <Bumper position={[-4, -1.5, 0]} />
+        <Bumper position={[4, -1.5, 0]} />
+
+        <RigidBody type="fixed" position={[0, -4.5, 0]}>
+            <mesh>
+                <boxGeometry args={[9, 1]} />
+                <meshStandardMaterial color="gray"/>
+            </mesh>
+        </RigidBody>
 
     </Physics>
 }
@@ -54,9 +64,9 @@ function Bumper({position}: {position: [number, number, number]}) {
                       type="fixed"
                       colliders={false}>
         <mesh>
-            <capsuleGeometry args={[0.5, 1, 4, 8]}/>
+            <capsuleGeometry args={[0.2, 1, 4, 8]}/>
             <meshStandardMaterial color="hotpink"/>
         </mesh>
-        <CapsuleCollider args={[1, 0.5]}/>
+        <CapsuleCollider args={[0.8, 0.2]}/>
     </RigidBody>
 }
