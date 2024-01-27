@@ -26,23 +26,23 @@ export const chosenWords: string[10][] = []
 
 export const script: string[] = [
     //tutorial
-    "Murphy has insomnia, so like many other nights, he finds himself ________ Waffle House at 2 am.",
+    "Murphy has insomnia, so like many other nights, he finds himself _____ Waffle House at 2 am.",
     //1
-    "He ________  ________  ________ in the early morning.",
+    "He _____ _____ _____ in the early morning.",
     //2
-    "Taking a seat next to a ----- (adj) ----- (noun), he orders his hashbrowns -----, -----, and ----- (past tense verbs).",
+    "Taking a seat next to a _____ _____ , he orders his hashbrowns _____ , _____ , and _____ .",
     //3
-    "The XXX (previous noun) orders a ----- (noun.",
+    "The XXX (previous noun) orders a _____ .",
     //4
-    "When the meal arrives, he exclaims: \"I ----- (verb) ----- (adj) ----- (plural noun) !\" and eats ----- (adverb).",
+    "When the meal arrives, he exclaims: \"I _____ _____ _____ !\" and eats _____ .",
     //5
-    "Murphy's stomach ----- (present tense verb) ----- (adverb), which makes Murphy ----- (present tense verb) ----- (adverb).",
+    "Murphy's stomach _____ _____ , which makes Murphy _____ _____ .",
     //6
-    "But then suddenly, and without warning, Murphy's ----- (relationship noun), the ----- (adj) ----- (noun), sat down across to him.",
+    "But then suddenly, and without warning, Murphy's _____ , the _____ _____ , sat down across to him.",
     //7
-    "They started to ----- (verb), and the XXX (previous noun) left, ----- (adj).",
+    "They started to _____ , and the XXX (previous noun) left, _____ .",
     //8
-    "After this, Murphy decides it's time to head home. He bids everyone a ----- (adj) ----- (noun), boards his XXX (previous noun), and ----- (present tense verb) home.",
+    "After this, Murphy decides it's time to head home. He bids everyone a _____ _____ , boards his XXX (previous noun), and _____ home.",
     //9
     "",
 ]
