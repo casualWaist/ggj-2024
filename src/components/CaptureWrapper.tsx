@@ -7,16 +7,17 @@
 
 import React, {createContext, Dispatch, SetStateAction, useEffect, useState} from "react"
 import {Canvas} from "@react-three/fiber"
+import * as fs from 'fs'
 
 type GameState = [ 'pregame' | 'story' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'story' | 'game' | 'end'>>]
 export const GameContext = createContext<GameState>(null!)
 
 //Global variables
-export const chosenWords: string[][] = [];
-export const nouns: string[] = []
-export const adjectives: string[] = []
-export const verbs: string[] = []
-export const adverbs: string[] = []
+export const chosenWords: string[][] = []
+export const nouns: string[] = (fs.readFileSync('../text/nouns.txt', 'utf-8')).split('\r\n')
+export const adjectives: string[] = (fs.readFileSync('../text/adjectives.txt', 'utf-8')).split('\r\n')
+export const verbs: string[] = (fs.readFileSync('../text/verbs.txt', 'utf-8')).split('\r\n')
+export const adverbs: string[] = (fs.readFileSync('../text/adverbs.txt', 'utf-8')).split('\r\n')
 
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
