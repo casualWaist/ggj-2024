@@ -6,10 +6,8 @@
 
 import {CapsuleCollider, CuboidCollider, Physics, RapierRigidBody, RigidBody} from "@react-three/rapier"
 import {useEffect, useRef} from "react"
-import {useThree, useFrame} from "@react-three/fiber"
 
 export default function Plinko() {
-    const camera = useThree(({camera}) => camera)
     const randomNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) ) + min
     const cubeRef = useRef<RapierRigidBody>(null!)
 
@@ -47,9 +45,9 @@ export default function Plinko() {
     </Physics>
 }
 
-function ChooseWord() {
-    return 
-}
+// function ChooseWord() {
+//     return 
+// }
 
 function Bumper({position}: {position: [number, number, number]}) {
     return <RigidBody position={position}
