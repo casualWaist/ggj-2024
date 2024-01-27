@@ -7,6 +7,7 @@ import vertex from './shaders/vertex.glsl'
 import fragment from './shaders/fragment.glsl'
 import {PerspectiveCamera, shaderMaterial} from "@react-three/drei"
 import Plinko from "./components/Plinko.tsx";
+import AniCube from "./components/AnimationEx.tsx";
 
 const MarchReps = shaderMaterial({
         time: 0,
@@ -43,6 +44,8 @@ function App() {
             {/* @ts-expect-error/it's complicated */}
             <Shader time={0}/>
         </mesh>
+
+        <AniCube />
 
         <Plinko />
 
