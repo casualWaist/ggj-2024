@@ -4,7 +4,7 @@ import { GameContext } from "./CaptureWrapper"
 
 export default function Story() {
     const [waiting, setWaiting] = useState<boolean>(false)
-    const [gameState, setGameState] = useContext(GameContext)
+    const gameState = useContext(GameContext)
 
     useEffect(() => {
         const canvasElement = document.querySelector('canvas')
@@ -12,7 +12,7 @@ export default function Story() {
         canvasElement!.addEventListener('pointerdown', () => {
             if (waiting) {
                 setWaiting(false)
-                setGameState("game")
+                gameState[1]("game")
             }
         })
     }, []);
