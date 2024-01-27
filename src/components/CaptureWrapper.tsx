@@ -13,17 +13,19 @@ export const GameContext = createContext<GameState>(null!)
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('game')
+    const [ gameState, setGameState ] = useState<'pregame' | 'game' | 'end' >('pregame')
+    let music: HTMLAudioElement
 
     // Placeholder for changing game state
     useEffect(() => {
-        /*setTimeout(() => {
-            setGameState('game')
-        }, 3000)
-        setTimeout(() => {
-            setGameState('end')
-        }, 9000)*/
-    }, []);
+        music = new Audio('/Jazz_Waffle.wav')
+        music.loop = true
+    }, [])
+
+    const handClick = () => {
+        music.play()
+        setGameState('game')
+    }
 
     // Called when recording is stopped to download the video
     const on_media_recorder_stop = (chunks: Blob[]) => {
@@ -57,6 +59,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         <Canvas ref={canvasRef} style={{width: '80%', height: '80%'}}>
             {children}
         </Canvas>
+        { gameState === 'pregame' ? <button onClick={handClick}>Start</button> : null }
         { gameState === 'end' ? <button onClick={capture}>Capture</button> : null }
     </GameContext.Provider>
 }

@@ -17,6 +17,7 @@ function App() {
 
     const [ gameState, _setGameState ] = useContext(GameContext)
 
+
     return <>
         <mesh position={[0, 1, 0]}>
             <planeGeometry args={[1, 1, 1, 1]}/>
