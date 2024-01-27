@@ -12,18 +12,13 @@ import Story from './components/Story.tsx'
 import Plinko from "./components/Plinko.tsx"
 import AniCube from "./components/AnimationEx.tsx"
 import Title from "./components/Title.tsx"
-import {Shader} from "./components/Shader.tsx"
 
 function App() {
 
     const [ gameState, _setGameState ] = useContext(GameContext)
 
     return <>
-        <mesh position={[0, 1, 0]}>
-            <planeGeometry args={[1, 1, 1, 1]}/>
-            {/* @ts-expect-error/it's complicated */}
-            <Shader time={0}/>
-        </mesh>
+        
 
         { gameState === 'pregame' ? <Title /> : null }
 

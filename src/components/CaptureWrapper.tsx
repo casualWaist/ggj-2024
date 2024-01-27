@@ -13,7 +13,7 @@ export const GameContext = createContext<GameState>(null!)
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<'pregame' | 'story' | 'game' | 'end' >('game')
+    const [ gameState, setGameState ] = useState<'pregame' | 'story' | 'game' | 'end' >('story')
 
     // Placeholder for changing game state
 
