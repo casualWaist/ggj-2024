@@ -1,10 +1,10 @@
+import { useContext } from "react"
 import { Text, Float } from "@react-three/drei"
-import { script } from "./CaptureWrapper"
-import { exampleChosenWords, } from "./CaptureWrapper"
+import { GameContext, script, exampleChosenWords } from "./CaptureWrapper"
 
 let scriptIndex: number
 let combinedScript: string
-
+const [ gameState, setGameState ] = useContext(GameContext)
 
 export default function StoryResult( ) {
     scriptIndex = 0
@@ -16,6 +16,7 @@ export default function StoryResult( ) {
             scriptIndex = 0
         }
         textAppear(scriptIndex)
+        setGameState((prevState) => ['play', prevState[1]])
     }
 
     return <>
@@ -164,7 +165,7 @@ function nounAppear(num: number) {
     }
 
     console.log(nouns)
-    //nouns.forEach(element => {
+    nouns.forEach(noun => {
         
-    //});
+    });
 }
