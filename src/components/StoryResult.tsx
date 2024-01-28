@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Text, Float } from "@react-three/drei"
 import { GameContext, script } from "./CaptureWrapper"
 import { chosenWords } from "./CaptureWrapper"
@@ -53,4 +53,42 @@ function textAppear(num: number) {
     combinedScript += (scripttt[scripttt.length -1])
 
     console.log(combinedScript)
+    nounAppear(num)
+}
+
+function nounAppear(num: number) {
+    switch (num) {
+        case 0:
+            
+            break;
+        case 1:
+            
+            break;
+        case 2:
+
+            break;
+        case 3: 
+            
+            break;
+        case 4:
+
+            break;
+        case 5:
+
+            break;
+        case 6:
+
+            break;
+        case 7:
+
+            break;
+        case 8:
+
+            break;
+        case 9:
+
+            break;
+        default:
+            break;
+    }
 }
