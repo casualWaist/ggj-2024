@@ -10,6 +10,8 @@ import Cabbage from "./3D/Cabbage"
 import Soda from "./3D/Soda.tsx"
 import Fries from "./3D/Fries.tsx"
 import Burger from "./3D/Burger.tsx";
+import FlyAcross from "./AnimationWrappers/FlyAcross.tsx";
+import Shake from "./AnimationWrappers/Shake.tsx";
 
 export default function AniCube() {
     const bananaRef = useRef<THREE.Group>(null!)
@@ -60,7 +62,11 @@ export default function AniCube() {
         <Knife ref={knifeRef} position={[0, -4, 0]}/>
         <Cabbage ref={cabbageRef} position={[-3, -3, 0]}/>
         <Soda ref={sodaRef} position={[2, -2, 0]} />
-        <Fries ref={friesRef} position={[4, 2, 0]} />
-        <Burger ref={burgerRef} position={[0, 3, 0]} />
+        <Shake>
+            <Fries ref={friesRef} position={[4, 2, 0]}/>
+        </Shake>
+        <FlyAcross>
+            <Burger ref={burgerRef} position={[0, 3, 0]}/>
+        </FlyAcross>
     </>
 }
