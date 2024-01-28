@@ -26,23 +26,23 @@ export const chosenWords: string[10][] = []
 
 export const script: string[] = [
     //tutorial
-    "Murphy has insomnia, so like many other nights, he finds himself _____ Waffle House at 2 am.",
+    "Murphy has insomnia, so like many other nights,\n\nhe finds himself _____ Waffle House at 2 am.",
     //1
     "He _____ _____ _____ in the early morning.",
     //2
-    "Taking a seat next to a _____ _____ , he orders his hashbrowns _____ , _____ , and _____ .",
+    "Taking a seat next to a _____ _____ ,\n\nhe orders his hashbrowns _____ , _____ , and _____ .",
     //3
     "The XXX (previous noun) orders a _____ .",
     //4
-    "When the meal arrives, he exclaims: \"I _____ _____ _____ !\" and eats _____ .",
+    "When the meal arrives, he exclaims:\n\n\"I _____ _____ _____ !\" and eats _____ .",
     //5
-    "Murphy's stomach _____ _____ , which makes Murphy _____ _____ .",
+    "Murphy's stomach _____ _____ ,\n\nwhich makes Murphy _____ _____ .",
     //6
-    "But then suddenly, and without warning, Murphy's _____ , the _____ _____ , sat down across to him.",
+    "But then suddenly, and without warning, Murphy's _____ ,\n\nthe _____ _____ , sat down across to him.",
     //7
-    "They started to _____ , and the XXX (previous noun) left, _____ .",
+    "They started to _____ ,\n\nand the XXX (previous noun) left, _____ .",
     //8
-    "After this, Murphy decides it's time to head home. He bids everyone a _____ _____ , boards his XXX (previous noun), and _____ home.",
+    "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his XXX (previous noun), and _____ home.",
     //9
     "",
 ]
@@ -61,7 +61,7 @@ export const adverbs: string[] = [
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<GameState>('pregame')
+    const [ gameState, setGameState ] = useState<GameState>('story')
     const music = useRef<HTMLAudioElement>(null!)
 
     // Placeholder for changing game state

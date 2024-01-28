@@ -28,15 +28,15 @@ export default function Story() {
         </mesh>
         <Float
             speed={5}
-            rotationIntensity={0.5}
+            rotationIntensity={.35}
             floatIntensity={1}>
             <Text
-                scale={[0.4, 0.4, 0.4]}
+                scale={[0.35, 0.35, 0.35]}
                 color="black"
                 textAlign="center"
                 position={[0, 0, 0]}
             >
-                {script[0]}
+                {script[6]}
             </Text>
         </Float>
     </>
