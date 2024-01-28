@@ -15,12 +15,11 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
 import { Float, Text } from "@react-three/drei"
 import { GameContext, chosenWords, vocab } from "./CaptureWrapper"
-import { randomWords, index, chosen, addToIndex } from "./Story.tsx"
+import { randomWords, wordsDisplayed, index, chosen, addToIndex } from "./Story.tsx"
 
 
 // Choose random number
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-const wordsDisplayed: string[] = randomWords()
 
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
@@ -202,6 +201,7 @@ function Surfaces({words}: {words: string[]}) {
         else {
             //Need to reset plinko here, unsure about how.
             //1) delete cube, cube starts at top again
+            randomWords()
             setGameState((prevState) => prevState)
         }
     }

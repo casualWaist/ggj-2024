@@ -6,6 +6,8 @@ import { GameContext, chosenWords, script, setScriptIndex, vocab, adjectives, no
 export let index: number
 export let chosen: string[] = new Array<string>();
 export function addToIndex() { index++ }
+export let wordsDisplayed: string[]
+
 
 export default function Story() {
     const [ gameState, setGameState ] = useContext(GameContext)
@@ -51,6 +53,7 @@ export default function Story() {
                 break;
         }
         setScriptIndex(words)
+        randomWords()
         setGameState((prevState) => ['game', prevState[1]])
     }
 
@@ -79,7 +82,7 @@ export default function Story() {
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 //RANDOM WORDS
-export function randomWords(): string[] {
+export function randomWords() {
     let len: number = 3
     let arr: string[] = nouns
     let flag = false
@@ -135,5 +138,5 @@ export function randomWords(): string[] {
         }
         num = randomInt(0, len)
     }
-    return threeRandoms
+    wordsDisplayed = threeRandoms
 }
