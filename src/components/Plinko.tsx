@@ -14,13 +14,22 @@ import {
 } from "@react-three/rapier"
 import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
-import { GameContext, chosenWords, adjectives, nouns, verbs, adverbs } from "./CaptureWrapper"
+import { GameContext, chosenWords, adjectives, nouns, verbs, adverbs, relations } from "./CaptureWrapper"
+import { vocab } from "../App.tsx"
+
+//for choosing words
+let index: number
+let vocabLength: number
+let words = new Array<string>();
 
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
     const [ go, setGo ] = useState<boolean>(false)
     const accelerate = useRef<boolean>(false)
     const xPos = useRef<number>(0)
+
+    index = 0
+    vocabLength = vocab.length
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
         console.log(e)
@@ -60,14 +69,88 @@ export default function Plinko() {
 
         <Bumpers n={3}/>
 
-        <Surfaces n={3} words={['banana', 'doughnut', 'hotdog']}/>
+        <Surfaces n={3} words={randomWords()}/>
 
     </Physics>
 }
 
-// function ChooseWord() {
-//     return 
-// }
+const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+//RANDOM WORDS
+function randomWords(): string[] {
+    let len: number = 3
+    let arr: string[] = nouns
+    let flag = false
+    let threeRandoms: string[] = []
+    
+    switch (vocab[index]) {
+        case "adj":
+        case "adjective":
+            len = adjectives.length
+            arr = adjectives
+            break;
+        case "noun":
+            len = nouns.length
+            arr = nouns
+            break;
+        case "adverb":
+            len = adverbs.length
+            arr = adverbs
+            break;
+        case "verb":
+            len = verbs.length
+            arr = verbs
+            break;
+        case "relation":
+            len = relations.length
+            arr = relations
+            break;
+        case "error":
+            threeRandoms.push("ERROR")
+            flag = true
+            break;
+        default:
+            let indeces = vocab[index].split("/")
+            threeRandoms.push( chosenWords[+indeces[0] -1][+indeces[1] -1] )
+            flag = true
+            break;
+    }
+
+    let num: number = randomInt(0, len)
+    while(threeRandoms.length < 3) {
+        //making sure its not already a chosenWord
+        for (let i = 0; i < chosenWords.length; i++) {
+            for (let j = 0; j < chosenWords[i].length; j++) {
+                const element = chosenWords[i][j];
+                if(arr[num] === element){
+                    flag = true
+                }
+            }
+        }
+        if(!flag){
+            threeRandoms.push(arr[num])
+        }
+        num = randomInt(0, len)
+    }
+    return threeRandoms
+}
+
+function choose(word: string) {
+    const setGameState  = useContext(GameContext)
+
+    words.push(word)
+    index += 1;
+    if (index == vocabLength) {
+        chosenWords.push(words)
+        words = [""]
+        setGameState[1]('story')
+    }
+    else {
+        //Need to reset plinko here, unsure about how.
+        //1) delete cube, cube starts at top again
+    }
+}
+
 
 function Bumper({position}: {position: [number, number, number]}) {
     const soundEffect = useRef<HTMLAudioElement>(null!)
@@ -115,8 +198,6 @@ function Bumper({position}: {position: [number, number, number]}) {
     </RigidBody>
 }
 
-
-
 function Bumpers({n}: {n: 3 | 4 | 5}) {
 
     if (n === 3) {
@@ -142,11 +223,9 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
 }
 
 function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
-    const  setGameState  = useContext(GameContext)
-
     const handleCollision = (e: IntersectionEnterPayload) => {
         console.log(e, e.target.rigidBody?.userData)
-        setGameState[1]('end')
+        choose(e.target.rigidBody?.userData as string)
     }
 
     if (n === 3) {

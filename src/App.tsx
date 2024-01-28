@@ -13,6 +13,14 @@ import AniCube from "./components/Result.tsx"
 import Title from "./components/Title.tsx"
 import Story from "./components/Story.tsx"
 
+//Variables
+export let scriptIndex: number
+export let vocab: string[]
+export function setScriptIndex(newVocab: string[], newIndex: number) {
+    vocab = newVocab
+    scriptIndex = newIndex
+}
+
 function App() {
 
     const [ gameState, _setGameState ] = useContext(GameContext)

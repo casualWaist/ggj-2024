@@ -12,7 +12,7 @@ type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
 export const GameContext = createContext<GameStateContext>(null!)
 
 //Global variables
-export const chosenWords: string[10][] = []
+export let chosenWords: Array<string[]>
 // 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
@@ -28,36 +28,40 @@ export const script: string[] = [
     //tutorial
     "Murphy has insomnia, so like many other nights,\n\nhe finds himself _____ Waffle House at 2 am.",
     //1
-    "He _____ _____ _____ in the early morning.",
+    "Riding in on his _____ _____, \n\nMurphy parks in the lot and _____ inside.",
     //2
-    "Taking a seat next to a _____ _____ ,\n\nhe orders his hashbrowns _____ , _____ , and _____ .",
+    "He _____ _____ _____ in the early morning.",
     //3
-    "The XXX (previous noun) orders a _____ .",
+    "Taking a seat next to a _____ _____ ,\n\nhe orders his hashbrowns _____ , _____ , and _____ .",
     //4
-    "When the meal arrives, he exclaims:\n\n\"I _____ _____ _____ !\" and eats _____ .",
+    "The XXX (previous noun) orders a _____ .",
     //5
-    "Murphy's stomach _____ _____ ,\n\nwhich makes Murphy _____ _____ .",
+    "When the meal arrives, he exclaims:\n\n\"I _____ _____ _____ !\" and eats _____ .",
     //6
-    "But then suddenly, and without warning, Murphy's _____ ,\n\nthe _____ _____ , sat down across to him.",
+    "Murphy's stomach _____ _____ ,\n\nwhich makes Murphy _____ _____ .",
     //7
-    "They started to _____ ,\n\nand the XXX (previous noun) left, _____ .",
+    "But then suddenly, and without warning, Murphy's _____ ,\n\nthe _____ _____ , sat down across to him.",
     //8
-    "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his XXX (previous noun), and _____ home.",
+    "They started to _____ ,\n\nand the XXX (previous noun) left, _____ .",
     //9
-    "",
+    "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his XXX (previous noun), and _____ home."
+]
+export const adjectives: string[] = [
+    "Sticky", "Gooey", "Tasty", "Slimy", "Round", "Massive", "Tiny", "Chewy", "Cheesy", "Peppery", "Noisy", "Smelly", "Stinky", "Snooty", "Stumpy"
+]
+export const verbs: string[] = [
+    "Smooch", "Maim", "Kick", "Sing", "Fart", "Slink", "Roll", "Shriek", "Walk", "Think", "Lick", "Crack", "Chihuahua", "Eat", "Swallow", "Flick", "Twist", "Pull", "Spin", "Bop"
+]
+export const adverbs: string[] = [
+    "Nasally", "Rapidly", "Boisterously", "Doggedly", "Flatulently", "Angrily", "Noisily", "Tiredly", "Clumsily"
 ]
 export const nouns: string[] = [
 
 ]
-export const adjectives: string[] = [
-
+export const relations: string[] = [
+    "Father", "Mother", "Brother", "Sister", "Grandfather", "Papa", "Mama", "Sibling", "Rival", "Enemy", "Best friend", "Mortal enemy", "Lawyer", "Dentist", "Client", "Caretaker", "Therapist"
 ]
-export const verbs: string[] = [
 
-]
-export const adverbs: string[] = [
-
-]
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
