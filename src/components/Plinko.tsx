@@ -170,14 +170,14 @@ function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
         // TODO: do word array mutation and check for completion
 
         /* @ts-expect-error/n not part of type*/
-        chosenWords.push(e.target.rigidBody?.userData.n)
+        chosenWords.push([e.target.rigidBody?.userData.n])
 
         let allWordsForPart = 0
 
         if (chosenWords.length > 0) { allWordsForPart = 1 }
 
         if ( gameState[1] < 9) { setGameState((prevState) => ['story', prevState[1] + allWordsForPart]) }
-        else { setGameState((prevState) => ['end', prevState[1]]) }
+        else { setGameState((prevState) => ['play', prevState[1]]) }
     }
 
     if (n === 3) {
