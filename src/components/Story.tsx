@@ -1,4 +1,5 @@
-import { useState, useContext} from "react"
+
+import { useState, useContext } from "react"
 import { Text, Float } from "@react-three/drei"
 import { GameContext } from "./CaptureWrapper"
 import { script } from "./CaptureWrapper"
