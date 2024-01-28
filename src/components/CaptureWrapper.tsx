@@ -61,7 +61,6 @@ export const adverbs: string[] = [
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<GameState>('story')
     const [ gameState, setGameState ] = useState<GameState>('pregame')
     const music = useRef<HTMLAudioElement>(null!)
 
