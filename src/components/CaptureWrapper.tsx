@@ -71,7 +71,8 @@ export const relations: string[] = [
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<GameState>(['pregame', 0])
+    //THE THING
+    const [ gameState, setGameState ] = useState<GameState>(['play', 0])
     const music = useRef<HTMLAudioElement>(null!)
     const a = useRef(document.createElement("a"))
     const url = useRef<string>('')
