@@ -69,9 +69,7 @@ export default function Story() {
                 textAlign="center"
                 position={[0, 0, 0]}
             >
-                //WHICH ONE IS RIGHT??
                 {script[gameState[1]]}
-                {/*{script[gameState[1]]}*/}
             </Text>
         </Float>
     </>

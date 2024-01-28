@@ -215,7 +215,7 @@ function Surfaces({words}: {words: string[]}) {
         fontSize={0.5}
         position={[0, -3.5, 0]}>
         
-            sample
+            {words[0]}
         </Text>
         </Float>
         <RigidBody sensor
@@ -236,7 +236,7 @@ function Surfaces({words}: {words: string[]}) {
             fontSize={0.5}
             position={[-3, -3.5, 0]}>
             
-                sample
+                {words[1]}
             </Text>
         </Float>
         <RigidBody sensor
@@ -257,7 +257,7 @@ function Surfaces({words}: {words: string[]}) {
                 fontSize={0.5}
                 position={[3, -3.5, 0]}>
             
-                sample
+                {words[2]}
             </Text>
         </Float>
     </>
