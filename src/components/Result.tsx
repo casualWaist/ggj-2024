@@ -6,11 +6,11 @@ import {useEffect, useRef} from "react"
 import {useFrame} from "@react-three/fiber"
 import * as THREE from "three"
 import gsap from "gsap"
-import Banana from "./Banana.tsx"
-import Fish from "./Fish.tsx"
-import FishWithLegs from "./Fishwithlegs.tsx"
-import Knife from "./Knife.tsx"
-import Cabbage from "./Cabbage.tsx"
+import Banana from "./3D/Banana.tsx"
+import Fish from "./3D/Fish.tsx"
+import FishWithLegs from "./3D/Fishwithlegs.tsx"
+import Knife from "./3D/Knife.tsx"
+import Cabbage from "./3D/Cabbage.tsx"
 
 export default function AniCube() {
     const bananaRef = useRef<THREE.Mesh>(null!)

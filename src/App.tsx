@@ -19,11 +19,9 @@ function App() {
 
 
     return <>
-        
+
 
         { gameState === 'pregame' ? <Title /> : null }
-
-        { gameState === 'story' ? <Story /> : null }
 
         { gameState === 'story' ? <Story /> : null }
 
