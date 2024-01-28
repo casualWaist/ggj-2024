@@ -24,54 +24,56 @@ const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max 
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
     const [ go, setGo ] = useState<boolean>(false)
-    const accelerate = useRef<boolean>(false)
+    //const accelerate = useRef<boolean>(false)
     const xPos = useRef<number>(0)
+    let singleClick = true
 
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
-        if (e.uv) { xPos.current = e.point.x }
+        if (singleClick && e.uv) { xPos.current = e.point.x }
         setGo(true)
     }
 
-    useEffect(() => {
-        const canvasElement = document.querySelector('canvas')
-        const pd = () => {
-            accelerate.current = true
-        }
-        const pu = () => {
-            accelerate.current = false
-        }
-        canvasElement!.addEventListener('pointerdown', pd)
-        canvasElement!.addEventListener('pointerup', pu)
-        return () => {
-            canvasElement!.removeEventListener('pointerdown', pd)
-            canvasElement!.removeEventListener('pointerup', pu)
-        }
-    }, [])
+    //useEffect(() => {
+    //    const canvasElement = document.querySelector('canvas')
+    //    const pd = () => {
+    //        accelerate.current = true
+    //    }
+    //    const pu = () => {
+    //        accelerate.current = false
+    //    }
+    //    canvasElement!.addEventListener('pointerdown', pd)
+    //    canvasElement!.addEventListener('pointerup', pu)
+    //    return () => {
+    //        canvasElement!.removeEventListener('pointerdown', pd)
+    //        canvasElement!.removeEventListener('pointerup', pu)
+    //    }
+    //}, [])
 
-    useFrame(() => {
-        if (go && accelerate.current) {
-            cubeRef.current.applyImpulse({x: 0, y: -0.3, z: 0}, true)
-        }
-    })
+    //useFrame(() => {
+    //    if (go && accelerate.current) {
+    //        cubeRef.current.applyImpulse({x: 0, y: -0.3, z: 0}, true)
+    //    }
+    //})
 
     /*
         The Physics Engine is Rapier, which is a port of PhysX to Rust.
         Debug mode is enabled, so you can see the physics bodies.
     */
-    return <Physics debug gravity={[0, -1, 0]}>
+    return <Physics debug gravity={[0, -10, 0]}>
 
         { go ? null :<mesh onPointerDown={handleClick}>
             <planeGeometry args={[100, 10, 1, 1]}/>
             <meshStandardMaterial color="gray" transparent opacity={0}/>
         </mesh> }
 
-        {/* Boundaries */}
+        {/* Front and Back Boundaries */}
         <RigidBody type="fixed">
-            <CuboidCollider position={[0, 0, -1]} args={[4, 4, 0.5]}/>
-            <CuboidCollider position={[0, 0, 1]} args={[4, 4, 0.5]}/>
+            <CuboidCollider position={[0, 0, -1.1]} args={[4, 4, 0.5]}/>
+            <CuboidCollider position={[0, 0, 1.1]} args={[4, 4, 0.5]}/>
         </RigidBody>
 
+        {/* CUBE */}
         { go ? <RigidBody mass={25} ref={cubeRef} position={[xPos.current, 4, 0]} friction={0}>
             <mesh>
                 <boxGeometry args={[1, 1, 1, 1]}/>
@@ -112,12 +114,12 @@ function Bumper({position}: {position: [number, number, number]}) {
 
     },[])
 
-    const handleCollision = () => {
+    const handleSoundCollision = () => {
         soundNum.current = randomInt(1, 5) as 1 | 2 | 3 | 4 | 5
         soundEffect.current.play()
     }
 
-    return <RigidBody onCollisionEnter={handleCollision}
+    return <RigidBody onCollisionEnter={handleSoundCollision}
                       position={position}
                       rotation={[-Math.PI * 0.5, 0, 0]}
                       friction={0}
@@ -227,7 +229,8 @@ function Surfaces({words}: {words: string[]}) {
                 <meshBasicMaterial color="gray" />
             </mesh>
         </RigidBody>
-        {/* Floor */}
+        {/* FLOOR */}
+        {/* floor 1 */}
         <RigidBody sensor
                    onIntersectionEnter={handleCollision}
                    userData={{n: words[0]}}
@@ -249,6 +252,7 @@ function Surfaces({words}: {words: string[]}) {
             {words[0]}
         </Text>
         </Float>
+        {/* floor 2 */}
         <RigidBody sensor
                    onIntersectionEnter={handleCollision}
                    userData={{n: words[1]}}
@@ -270,6 +274,7 @@ function Surfaces({words}: {words: string[]}) {
                 {words[1]}
             </Text>
         </Float>
+        {/* floor 3 */}
         <RigidBody sensor
                    onIntersectionEnter={handleCollision}
                    userData={{n: words[2]}}
