@@ -33,6 +33,10 @@ export default function Plinko() {
     const xPos = useRef<number>(0)
     let singleClick = true
 
+    useEffect(() => {
+      setGo(false)
+    }, [gameState.index])
+
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
         if (singleClick && e.uv) { xPos.current = e.point.x }
