@@ -1,6 +1,7 @@
 import { useState, useContext} from "react"
 import { Text, Float } from "@react-three/drei"
 import { GameContext } from "./CaptureWrapper"
+import { script } from "./CaptureWrapper"
 
 export default function Story() {
     const [waiting, setWaiting] = useState<boolean>(false)
@@ -17,11 +18,7 @@ export default function Story() {
         gameState[1]('game')
     }
 
-    const someText = [
-        "Η¢´”µ≤µӘϐ°ɲϐæ›ɲ°Әϐæ¿°«˘›Әɲ≤æıµ˘´ɲ°𝖡µıϐ,\n\nhe finds himself ______ing (verb ending in -ing) Waffle House at 2 am.",
-        "Riding on his ______ (adjective) ______ (noun),\n\nhe parks in the lot and steps inside.",
-        "He ______s (verb) ______ing (verb ending in -ing)\n\n______ (noun) in the early morning."
-    ]
+
 
     return <>
         <mesh onClick={handleClick} position={[0, 0, 1]}>
@@ -38,7 +35,7 @@ export default function Story() {
                 textAlign="center"
                 position={[0, 0, 0]}
             >
-                {someText[0]}
+                {script[0]}
             </Text>
         </Float>
     </>
