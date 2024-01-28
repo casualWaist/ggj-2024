@@ -15,19 +15,19 @@ import Story from "./components/Story.tsx"
 
 function App() {
 
-    const [ gameState, _setGameState ] = useContext(GameContext)
+    const [ gameState ] = useContext(GameContext)
 
 
     return <>
 
 
-        { gameState === 'pregame' ? <Title /> : null }
+        { gameState[0] === 'pregame' ? <Title /> : null }
 
-        { gameState === 'story' ? <Story /> : null }
+        { gameState[0] === 'story' ? <Story /> : null }
 
-        { gameState === 'game' ? <Plinko/> : null}
+        { gameState[0] === 'game' ? <Plinko/> : null}
 
-        { gameState === 'end' ? <AniCube/> : null }
+        { gameState[0] === 'end' ? <AniCube/> : null }
 
         <color attach="background" args={['hotpink']} />
         <ambientLight />

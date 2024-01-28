@@ -1,27 +1,25 @@
 import { useContext, useEffect} from "react"
 import { Text, Float } from "@react-three/drei"
-import { GameContext, script, chosenWords, adjectives, nouns, verbs, adverbs } from "./CaptureWrapper"
+import { GameContext, script } from "./CaptureWrapper"
 
 export default function Story() {
-    const gameState = useContext(GameContext)
+    const [ gameState, setGameState ] = useContext(GameContext)
 
     useEffect(() => {
         const canvasElement = document.querySelector('canvas')
         const pd = () => {
-            gameState[1]("game")
+            setGameState((prevState) => ["game", prevState[1]])
         }
         canvasElement!.addEventListener('pointerdown', pd)
         return () => {
             canvasElement!.removeEventListener('pointerdown', pd)
         }
-    }, [gameState])
+    }, [setGameState])
 
 
     const handleClick = () => {
-        gameState[1]('game')
+        setGameState((prevState) => ['game', prevState[1]])
     }
-
-    console.log(chosenWords, adjectives, nouns, verbs, adverbs)
 
     return <>
         <mesh onClick={handleClick} position={[0, 0, 1]}>
@@ -38,7 +36,7 @@ export default function Story() {
                 textAlign="center"
                 position={[0, 0, 0]}
             >
-                {script[0]}
+                {script[gameState[1]]}
             </Text>
         </Float>
     </>

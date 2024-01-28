@@ -164,14 +164,20 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
 }
 
 function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
-    const  setGameState  = useContext(GameContext)
+    const  [ gameState, setGameState]  = useContext(GameContext)
 
     const handleCollision = (e: IntersectionEnterPayload) => {
         // TODO: do word array mutation and check for completion
+
         /* @ts-expect-error/n not part of type*/
         chosenWords.push(e.target.rigidBody?.userData.n)
-        if (chosenWords.length < 26) { setGameState[1]('story') }
-        else { setGameState[1]('end') }
+
+        let allWordsForPart = 0
+
+        if (chosenWords.length > 0) { allWordsForPart = 1 }
+
+        if ( gameState[1] < 9) { setGameState((prevState) => ['story', prevState[1] + allWordsForPart]) }
+        else { setGameState((prevState) => ['end', prevState[1]]) }
     }
 
     if (n === 3) {

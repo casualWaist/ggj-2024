@@ -7,7 +7,7 @@
 import React, {createContext, Dispatch, SetStateAction, useState, useRef, useEffect} from "react"
 import {Canvas} from "@react-three/fiber"
 
-type GameState = 'pregame' | 'story' | 'game' | 'end'
+type GameState = ['pregame' | 'story' | 'game' | 'end', number]
 type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
 export const GameContext = createContext<GameStateContext>(null!)
 
@@ -61,7 +61,7 @@ export const adverbs: string[] = [
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<GameState>('pregame')
+    const [ gameState, setGameState ] = useState<GameState>(['pregame', 0])
     const music = useRef<HTMLAudioElement>(null!)
 
     // Placeholder for changing game state
@@ -73,7 +73,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     const handClick = () => {
          music.current.play()
          music.current.volume = 0.1
-        setGameState('story')
+        setGameState(['story', 0])
     }
 
     // Called when recording is stopped to download the video
@@ -108,7 +108,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         <Canvas ref={canvasRef} style={{width: '700px', height: '80%'}}>
             {children}
         </Canvas>
-        { gameState === 'pregame' ? <button onClick={handClick}>Start</button> : null }
-        { gameState === 'end' ? <button onClick={capture}>Capture</button> : null }
+        { gameState[0] === 'pregame' ? <button onClick={handClick}>Start</button> : null }
+        { gameState[0] === 'end' ? <button onClick={capture}>Capture</button> : null }
     </GameContext.Provider>
 }
