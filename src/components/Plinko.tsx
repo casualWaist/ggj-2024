@@ -23,6 +23,8 @@ import { randomWords, wordsDisplayed, index, chosen, addToIndex } from "./Story.
 // Choose random number
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
+
+
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
     const [ go, setGo ] = useState<boolean>(false)
@@ -160,12 +162,14 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
 }
 
 
-const handleIntersection = (e: IntersectionEnterPayload) => {
+const handleIntersection = (e: IntersectionEnterPayload, gameState: any, setGameState: any) => {
     //soundNum.current = randomInt(1, 4) as 1 | 2 | 3 | 4
     //soundEffect.current.play()
-    const  [ gameState, setGameState]  = useContext(GameContext)
+    console.log("collision")
+    
     let chooseMe = e.target.rigidBody?.userData as string
     chosen.push(chooseMe)
+    console.log({gameState, index, vocab, l:vocab.length})
 
     addToIndex()
     if (index == vocab.length) {
@@ -182,6 +186,7 @@ const handleIntersection = (e: IntersectionEnterPayload) => {
 }
 
 function Surfaces({words}: {words: string[]}) {
+    const  [ gameState, setGameState]  = useContext(GameContext)
     return <>
         {/* Left Wall */}
         <RigidBody type='fixed' position={[-5, 0, 0]}>
@@ -208,7 +213,7 @@ function Surfaces({words}: {words: string[]}) {
         {/* FLOOR */}
         {/* floor 1 */}
         <RigidBody sensor
-                   onIntersectionEnter={handleIntersection}
+                   onIntersectionEnter={e => handleIntersection(e, gameState, setGameState)}
                    userData={{n: words[0]}}
                    type="fixed"
                    position={[0, -4.5, 0]}
@@ -230,8 +235,9 @@ function Surfaces({words}: {words: string[]}) {
         </Text>
         </Float>
         {/* floor 2 */}
-        <RigidBody sensor
-                   onIntersectionEnter={handleIntersection}
+        <RigidBody 
+                   sensor
+                   onIntersectionEnter={e => handleIntersection(e, gameState, setGameState)}
                    userData={{n: words[1]}}
                    type="fixed"
                    position={[-3, -4.5, 0]}
@@ -253,8 +259,9 @@ function Surfaces({words}: {words: string[]}) {
             </Text>
         </Float>
         {/* floor 3 */}
-        <RigidBody sensor
-                   onIntersectionEnter={handleIntersection}
+        <RigidBody 
+                   sensor
+                   onIntersectionEnter={e => handleIntersection(e, gameState, setGameState)}
                    userData={{n: words[2]}}
                    type="fixed"
                    position={[3, -4.5, 0]}
