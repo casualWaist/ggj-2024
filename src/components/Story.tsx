@@ -1,23 +1,15 @@
 import { useContext } from "react"
 import { Text, Float } from "@react-three/drei"
-import { GameContext, chosenWords, script, setScriptIndex, vocab, adjectives, nouns, verbs, adverbs, relations } from "./CaptureWrapper"
-
-//for choosing words
-export let index: number
-export let chosen: string[] = new Array<string>();
-export function addToIndex() { index++ }
-export let wordsDisplayed: string[]
-
+import { GameContext, script, adjectives, nouns, verbs, adverbs, relations } from "./CaptureWrapper"
 
 export default function Story() {
     const [ gameState, setGameState ] = useContext(GameContext)
 
-    index = 0
-    chosen = []
+    setGameState({ index: 0, chosen: [] })
 
     const handleClick = () => {
         let words: string[]
-        switch (gameState[1]) {
+        switch (gameState.count) {
             case 0:
                 words = ["verb"]
                 break;
@@ -52,9 +44,8 @@ export default function Story() {
                 words = ["error"]
                 break;
         }
-        setScriptIndex(words)
-        randomWords()
-        setGameState((prevState) => ['game', prevState[1]])
+        randomWords(gameState.index, setGameState, words, gameState.chosen)
+        setGameState((prevState) => ({ section: 'game', count: prevState.count, vocab: words }))
     }
 
     return <>
@@ -72,7 +63,7 @@ export default function Story() {
                 textAlign="center"
                 position={[0, 0, 0]}
             >
-                {script[gameState[1]]}
+                {script[gameState.count]}
             </Text>
         </Float>
     </>
@@ -82,7 +73,7 @@ export default function Story() {
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 //RANDOM WORDS
-export function randomWords() {
+export function randomWords(index, setGameState, vocab, chosenWords) {
     let len: number = 3
     let arr: string[] = nouns
     let flag = false
@@ -142,5 +133,6 @@ export function randomWords() {
     if(threeRandoms.length < 3){
         threeRandoms.push(arr[randomInt(0, len)])
     }
-    wordsDisplayed = threeRandoms
+
+    setGameState({ wordsDisplayed: threeRandoms })
 }

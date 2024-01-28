@@ -22,13 +22,13 @@ function App() {
 
     return <>
 
-        { gameState[0] === 'pregame' ? <Title /> : null }
+        { gameState.section === 'pregame' ? <Title /> : null }
 
-        { gameState[0] === 'story' ? <Story /> : null }
+        { gameState.section === 'story' ? <Story /> : null }
 
-        { gameState[0] === 'game' ? <Plinko/> : null}
+        { gameState.section === 'game' ? <Plinko/> : null}
 
-        {/*{ ['play', 'end'].includes(gameState[0]) ?
+        {/*{ ['play', 'end'].includes(gameState.section) ?
             <Result
                 result1={chosenWords[0]}
                 result2={chosenWords[1]}
@@ -42,8 +42,8 @@ function App() {
             />
             : null }*/}
 
-        { gameState[0] === 'play' ? <StoryResult /> : null }
-        
+        { gameState.section === 'play' ? <StoryResult /> : null }
+
         <color attach="background" args={['hotpink']} />
         <ambientLight />
         <PerspectiveCamera makeDefault position={[0, 0, 10]} />

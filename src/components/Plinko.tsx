@@ -16,8 +16,8 @@ import {
 import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
 import { Float, Text } from "@react-three/drei"
-import { GameContext, chosenWords, vocab } from "./CaptureWrapper"
-import { randomWords, wordsDisplayed, index, chosen, addToIndex } from "./Story.tsx"
+import { GameContext } from "./CaptureWrapper"
+import { randomWords } from "./Story.tsx"
 
 
 // Choose random number
@@ -26,6 +26,7 @@ const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max 
 
 
 export default function Plinko() {
+    const [gameState] = useContext(GameContext)
     const cubeRef = useRef<RapierRigidBody>(null!)
     const [ go, setGo ] = useState<boolean>(false)
     //const accelerate = useRef<boolean>(false)
@@ -87,7 +88,7 @@ export default function Plinko() {
 
         <Bumpers n={3}/>
 
-        <Surfaces words={wordsDisplayed}/>
+        <Surfaces words={gameState.wordsDisplayed}/>
 
     </Physics>
 }
@@ -165,28 +166,27 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
 const handleIntersection = (e: IntersectionEnterPayload, gameState: any, setGameState: any) => {
     //soundNum.current = randomInt(1, 4) as 1 | 2 | 3 | 4
     //soundEffect.current.play()
-    console.log("collision")
-    
-    let chooseMe = e.target.rigidBody?.userData as string
-    chosen.push(chooseMe)
-    console.log({gameState, index, vocab, l:vocab.length})
+    console.log("collision", gameState)
 
-    addToIndex()
-    if (index == vocab.length) {
-        chosenWords.push(chosen)
-        if ( gameState[1] < 9) { setGameState((prevState) => ['story', prevState[1] + 1]) }
-        else { setGameState((prevState) => ['play', prevState[1]]) }
+    let chooseMe = e.target.rigidBody?.userData as string
+
+    setGameState(prevState => ({ index: prevState.index + 1 }))
+
+    if (gameState.index == gameState.vocab.length) {
+        setGameState(prevState => ({ chosen: [...prevState.chosen, chooseMe] }))
+        if (gameState.count < 9) { setGameState((prevState) => ({ section: 'story', count: prevState.count + 1 })) }
+        else { setGameState((prevState) => ({ section: 'play', count: prevState.count })) }
     }
     else {
         //Need to reset plinko here, unsure about how.
         //1) delete cube, cube starts at top again
-        randomWords()
-        setGameState((prevState) => prevState)
+        randomWords(gameState.index, setGameState, gameState.vocab, gameState.chosen)
     }
 }
 
 function Surfaces({words}: {words: string[]}) {
     const  [ gameState, setGameState]  = useContext(GameContext)
+    console.log(gameState)
     return <>
         {/* Left Wall */}
         <RigidBody type='fixed' position={[-5, 0, 0]}>
@@ -221,7 +221,7 @@ function Surfaces({words}: {words: string[]}) {
             <mesh>
                 <boxGeometry args={[4, 1, 1]} />
                 <meshStandardMaterial color="gray"/>
-            </mesh> 
+            </mesh>
         </RigidBody>
         <Float speed={5}
                rotationIntensity={.15}
@@ -230,12 +230,12 @@ function Surfaces({words}: {words: string[]}) {
         <Text
         fontSize={0.5}
         position={[0, -3.5, 0]}>
-        
+
             {words[0]}
         </Text>
         </Float>
         {/* floor 2 */}
-        <RigidBody 
+        <RigidBody
                    sensor
                    onIntersectionEnter={e => handleIntersection(e, gameState, setGameState)}
                    userData={{n: words[1]}}
@@ -245,7 +245,7 @@ function Surfaces({words}: {words: string[]}) {
             <mesh>
                 <boxGeometry args={[4, 1, 1]} />
                 <meshStandardMaterial color="gray"/>
-            </mesh> 
+            </mesh>
         </RigidBody>
         <Float speed={5}
                rotationIntensity={.15}
@@ -254,12 +254,12 @@ function Surfaces({words}: {words: string[]}) {
             <Text
             fontSize={0.5}
             position={[-3, -3.5, 0]}>
-            
+
                 {words[1]}
             </Text>
         </Float>
         {/* floor 3 */}
-        <RigidBody 
+        <RigidBody
                    sensor
                    onIntersectionEnter={e => handleIntersection(e, gameState, setGameState)}
                    userData={{n: words[2]}}
@@ -269,7 +269,7 @@ function Surfaces({words}: {words: string[]}) {
             <mesh>
                 <boxGeometry args={[4, 1, 1]} />
                 <meshStandardMaterial color="gray"/>
-            </mesh> 
+            </mesh>
         </RigidBody>
         <Float speed={5}
                rotationIntensity={.15}
@@ -278,7 +278,7 @@ function Surfaces({words}: {words: string[]}) {
             <Text
                 fontSize={0.5}
                 position={[3, -3.5, 0]}>
-            
+
                 {words[2]}
             </Text>
         </Float>

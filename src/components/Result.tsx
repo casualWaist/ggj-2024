@@ -32,7 +32,7 @@ export default function Result(
     const gameState = useContext(GameContext)
 
     const advance = () => { setAct((prev) => prev + 1) }
-    const finish = () => { gameState[1]((prev) => ['end', prev[1]]) }
+    const finish = () => { gameState.count((prev) => ['end', prev[1]]) }
 
     return <>
         { act === 0 ? <Result0 result={result0} done={advance}/> : null }

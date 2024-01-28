@@ -7,18 +7,20 @@
 import React, {createContext, Dispatch, SetStateAction, useState, useRef, useEffect} from "react"
 import {Canvas} from "@react-three/fiber"
 
-type GameState = ['pregame' | 'story' | 'game' | 'play' | 'end', number]
+interface GameState {
+  section: 'pregame' | 'story' | 'game' | 'play' | 'end';
+  count: number;
+  index: number;
+  chosen: string[];
+  wordsDisplayed: string[];
+  vocab: string[];
+}
+
 type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
 export const GameContext = createContext<GameStateContext>(null!)
 
 //Variables
-export let vocab: string[]
-export function setScriptIndex(newVocab: string[]) {
-    vocab = newVocab
-}
-
 //Global variables
-export let chosenWords: Array<string[]> = new Array<string[]>()
 // 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
@@ -85,7 +87,12 @@ export const relations: string[] = [
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     //THE LINE TO CHANGE !!! CHANGE THIS FOR IMMEDIATE TESTING
-    const [ gameState, setGameState ] = useState<GameState>(['play', 0])
+    const [ gameState, _setGameState ] = useState<GameState>({ section: 'pregame', count: 0, index: 0, chosen: [], wordsDisplayed: [] })
+    const setGameState = ((objOrFunc) => _setGameState((prevState) =>
+      ({
+        ...prevState,
+        ...(typeof objOrFunc === 'function' ? objOrFunc(prevState) : objOrFunc)
+      })));
     const music = useRef<HTMLAudioElement>(null!)
     const a = useRef(document.createElement("a"))
     const url = useRef<string>('')
@@ -100,9 +107,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     const handClick = () => {
         music.current.play()
         music.current.volume = 0.1
-        vocab = new Array<string>()
-        chosenWords = new Array<string[]>()
-        setGameState(['story', 0])
+        setGameState({ section: 'story', count: 0, chosen: [], vocab: [] })
     }
 
     // Called when recording is stopped to download the video
@@ -125,7 +130,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
 
 
     useEffect(() => {
-        if (gameState[0] === 'play') {
+        if (gameState.section === 'play') {
             const chunks: Blob[] = []
             const canvas_stream = canvasRef.current!.captureStream(30); // fps
             // Create media recorder from canvas stream
@@ -140,7 +145,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
             }
             capture()
         }
-        if (gameState[0] === 'end') {
+        if (gameState.section === 'end') {
             media_recorder.current.stop()
         }
     }, [gameState])
@@ -149,9 +154,9 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         <Canvas ref={canvasRef} style={{width: '700px', height: '80%'}}>
             {children}
         </Canvas>
-        { gameState[0] === 'pregame' ? <button onClick={handClick}>Start</button> : null }
-        { gameState[0] === 'play' ? <button onClick={handClick}>Replay? </button> : null }
-        { gameState[0] === 'end' ? <button onClick={download}>Download</button> : null }
-        { gameState[0] === 'end' ? <button onClick={copy}>Copy</button> : null }
+        { gameState.section === 'pregame' ? <button onClick={handClick}>Start</button> : null }
+        { gameState.section === 'play' ? <button onClick={handClick}>Replay? </button> : null }
+        { gameState.section === 'end' ? <button onClick={download}>Download</button> : null }
+        { gameState.section === 'end' ? <button onClick={copy}>Copy</button> : null }
     </GameContext.Provider>
 }
