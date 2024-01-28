@@ -14,6 +14,7 @@ import {
 } from "@react-three/rapier"
 import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
+import { Text } from "@react-three/drei"
 import { GameContext, chosenWords, adjectives, nouns, verbs, adverbs } from "./CaptureWrapper"
 
 export default function Plinko() {
@@ -212,7 +213,7 @@ function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
                 <mesh>
                     <boxGeometry args={[3, 1]} />
                     <meshStandardMaterial color="gray"/>
-                </mesh>
+                </mesh>       
             </RigidBody>
             <RigidBody sensor
                        onIntersectionEnter={handleCollision}

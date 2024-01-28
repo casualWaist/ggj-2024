@@ -71,11 +71,14 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     useEffect(() => {
         music.current = new Audio('/Jazz_Waffle.wav')
         music.current.loop = true
+        music.current.play()
+        music.current.volume = 0.1
     }, [])
 
+
+
     const handClick = () => {
-         music.current.play()
-         music.current.volume = 0.1
+  
         setGameState(['story', 0])
     }
 
