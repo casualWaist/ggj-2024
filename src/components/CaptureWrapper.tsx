@@ -7,12 +7,12 @@
 import React, {createContext, Dispatch, SetStateAction, useState, useRef, useEffect} from "react"
 import {Canvas} from "@react-three/fiber"
 
-type GameState = ['pregame' | 'story' | 'game' | 'end', number]
+type GameState = ['pregame' | 'story' | 'game' | 'play' | 'end', number]
 type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
 export const GameContext = createContext<GameStateContext>(null!)
 
 //Global variables
-export const chosenWords: string[10][] = []
+export const chosenWords: string[][] = []
 // 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
@@ -63,6 +63,9 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     const [ gameState, setGameState ] = useState<GameState>(['pregame', 0])
     const music = useRef<HTMLAudioElement>(null!)
+    const a = useRef(document.createElement("a"))
+    const url = useRef<string>('')
+    const media_recorder = useRef<MediaRecorder>(null!)
 
     // Placeholder for changing game state
     useEffect(() => {
@@ -77,38 +80,53 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     }
 
     // Called when recording is stopped to download the video
-    const on_media_recorder_stop = (chunks: Blob[]) => {
+    const on_media_recorder_stop = useRef((chunks: Blob[]) => {
         const blob = new Blob(chunks, { type: "video/webm" })
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        document.body.appendChild(a)
-        a.style.display = "none"
-        a.href = url
-        a.download = "test.webm"
-        a.click()
-        window.URL.revokeObjectURL(url)
+        url.current = URL.createObjectURL(blob)
+        document.body.appendChild(a.current)
+        a.current.style.display = "none"
+        a.current.href = url.current
+        a.current.download = "test.webm"
+    })
+
+    const download = () => {
+        console.log(a.current, url.current)
+        a.current.click()
     }
-    const capture = () => {
-        const chunks: Blob[] = []
-        const canvas_stream = canvasRef.current!.captureStream(30); // fps
-        // Create media recorder from canvas stream
-        const media_recorder = new MediaRecorder(canvas_stream, { mimeType: "video/webm; codecs=vp9" });
-        // Record data in chunks array when data is available
-        media_recorder.ondataavailable = (evt) => { chunks.push(evt.data); };
-        // Provide recorded data when recording stops
-        media_recorder.onstop = () => {on_media_recorder_stop(chunks)}
-        // Start recording using a 1s timeslice [ie data is made available every 1s)
-        media_recorder.start(1000)
-        setTimeout(() => {
-            media_recorder.stop()
-        }, 10000)
+
+    const copy = () => {
+        console.log(url.current)
+        navigator.clipboard.writeText(url.current)
     }
+
+
+    useEffect(() => {
+        if (gameState[0] === 'play') {
+            const chunks: Blob[] = []
+            const canvas_stream = canvasRef.current!.captureStream(30); // fps
+            // Create media recorder from canvas stream
+            media_recorder.current = new MediaRecorder(canvas_stream, { mimeType: "video/webm; codecs=vp9" });
+            const capture = () => {
+                // Record data in chunks array when data is available
+                media_recorder.current.ondataavailable = (evt) => { chunks.push(evt.data); };
+                // Provide recorded data when recording stops
+                media_recorder.current.onstop = () => {on_media_recorder_stop.current(chunks)}
+                // Start recording using a 1s timeslice [ie data is made available every 1s)
+                media_recorder.current.start(1000)
+            }
+            capture()
+        }
+        if (gameState[0] === 'end') {
+            media_recorder.current.stop()
+        }
+    }, [gameState])
 
     return <GameContext.Provider value={[gameState, setGameState]}>
         <Canvas ref={canvasRef} style={{width: '700px', height: '80%'}}>
             {children}
         </Canvas>
         { gameState[0] === 'pregame' ? <button onClick={handClick}>Start</button> : null }
-        { gameState[0] === 'end' ? <button onClick={capture}>Capture</button> : null }
+        { gameState[0] === 'end' ? <button onClick={download}>Download</button> : null }
+        { gameState[0] === 'end' ? <button onClick={copy}>Copy</button> : null }
     </GameContext.Provider>
 }
