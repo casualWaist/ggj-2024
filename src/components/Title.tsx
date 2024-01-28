@@ -1,6 +1,9 @@
 import {Float, Torus} from "@react-three/drei"
 import {useEffect, useRef} from "react"
 import gsap from "gsap"
+import { setScriptIndex } from "./CaptureWrapper"
+
+setScriptIndex([""])
 
 export default function Title() {
     const titleRef = useRef<THREE.Mesh>(null!)
@@ -11,6 +14,6 @@ export default function Title() {
         })
         return () => ctx.kill(false)
     }, [])
-    
+
     return <Float><Torus ref={titleRef} args={[1, 0.5, 16, 100]} position={[0, 5, 0]} rotation={[0, 0, 0]}/></Float>
 }

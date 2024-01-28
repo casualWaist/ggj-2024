@@ -11,8 +11,14 @@ type GameState = ['pregame' | 'story' | 'game' | 'play' | 'end', number]
 type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
 export const GameContext = createContext<GameStateContext>(null!)
 
+//Variables
+export let vocab: string[]
+export function setScriptIndex(newVocab: string[]) {
+    vocab = newVocab
+}
+
 //Global variables
-export let chosenWords: Array<string[]>
+export const chosenWords: Array<string[]> = new Array<string[]>()
 // 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
@@ -75,14 +81,11 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     useEffect(() => {
         music.current = new Audio('/Jazz_Waffle.wav')
         music.current.loop = true
-        music.current.play()
-        music.current.volume = 0.1
     }, [])
 
-
-
     const handClick = () => {
-  
+        music.current.play()
+        music.current.volume = 0.1
         setGameState(['story', 0])
     }
 
@@ -97,12 +100,10 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     })
 
     const download = () => {
-        console.log(a.current, url.current)
         a.current.click()
     }
 
     const copy = () => {
-        console.log(url.current)
         navigator.clipboard.writeText(url.current)
     }
 

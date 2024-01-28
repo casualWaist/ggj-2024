@@ -14,14 +14,6 @@ import Story from "./components/Story.tsx"
 import Result from "./components/Result.tsx"
 import {chosenWords} from "./components/CaptureWrapper.tsx"
 
-//Variables
-export let scriptIndex: number
-export let vocab: string[]
-export function setScriptIndex(newVocab: string[], newIndex: number) {
-    vocab = newVocab
-    scriptIndex = newIndex
-}
-
 function App() {
 
     const [ gameState ] = useContext(GameContext)
