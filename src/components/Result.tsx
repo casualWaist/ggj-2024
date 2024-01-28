@@ -1,20 +1,15 @@
-/*
-    This is an example of a component that uses the three fiber and gsap animation hooks.
-*/
-import { chosenWords } from "./CaptureWrapper.tsx"
 import { useEffect, useRef } from "react"
 import { useFrame } from "@react-three/fiber"
 import * as THREE from "three"
 import gsap from "gsap"
-import Banana from "./3D/Banana.tsx"
-import Fish from "./3D/Fish.tsx"
-import FishWithLegs from "./3D/Fishwithlegs.tsx"
-import Knife from "./3D/Knife.tsx"
-import Cabbage from "./3D/Cabbage.tsx"
-import { script } from "./CaptureWrapper.tsx"
+import Banana from "./3D/Banana"
+import Fish from "./3D/Fish"
+import FishWithLegs from "./3D/Fishwithlegs"
+import Knife from "./3D/Knife"
+import Cabbage from "./3D/Cabbage"
 
 export default function AniCube() {
-    const bananaRef = useRef<THREE.Mesh>(null!)
+    const bananaRef = useRef<THREE.Group>(null!)
     const fishRef = useRef<THREE.Group>(null!)
     const fishLegsRef = useRef<THREE.Group>(null!)
     const cabbageRef = useRef<THREE.Group>(null!)
@@ -50,7 +45,6 @@ export default function AniCube() {
     })
 
     return <>
-        {/* @ts-expect-error/hard */}
         <Banana ref={bananaRef} position={[2, 2, 0]}/>
         <Fish ref={fishRef} position={[5, 0, 0]}/>
         <FishWithLegs ref={fishLegsRef} position={[4, -2, 0]}/>

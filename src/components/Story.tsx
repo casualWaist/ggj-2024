@@ -1,23 +1,27 @@
-import { useState, useContext } from "react"
+import { useContext, useEffect} from "react"
 import { Text, Float } from "@react-three/drei"
-import { GameContext, script } from "./CaptureWrapper"
+import { GameContext, script, chosenWords, adjectives, nouns, verbs, adverbs } from "./CaptureWrapper"
 
 export default function Story() {
-    const [waiting, setWaiting] = useState<boolean>(false)
     const gameState = useContext(GameContext)
-    const canvasElement = document.querySelector('canvas')
 
-    canvasElement!.addEventListener('pointerdown', () => {
-        if (waiting) {
-            setWaiting(false)
+    useEffect(() => {
+        const canvasElement = document.querySelector('canvas')
+        const pd = () => {
             gameState[1]("game")
         }
-    })
+        canvasElement!.addEventListener('pointerdown', pd)
+        return () => {
+            canvasElement!.removeEventListener('pointerdown', pd)
+        }
+    }, [gameState])
+
+
     const handleClick = () => {
         gameState[1]('game')
     }
 
-
+    console.log(chosenWords, adjectives, nouns, verbs, adverbs)
 
     return <>
         <mesh onClick={handleClick} position={[0, 0, 1]}>
