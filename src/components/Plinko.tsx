@@ -18,6 +18,10 @@ import { GameContext, chosenWords, vocab } from "./CaptureWrapper"
 import { randomWords, index, chosen, addToIndex } from "./Story.tsx"
 
 
+// Choose random number
+const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const wordsDisplayed: string[] = randomWords()
+
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
     const [ go, setGo ] = useState<boolean>(false)
@@ -78,7 +82,7 @@ export default function Plinko() {
 
         <Bumpers n={3}/>
 
-        <Surfaces words={randomWords()}/>
+        <Surfaces words={wordsDisplayed}/>
 
     </Physics>
 }
@@ -86,7 +90,6 @@ export default function Plinko() {
 
 function Bumper({position}: {position: [number, number, number]}) {
     const soundEffect = useRef<HTMLAudioElement>(null!)
-    const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
     const soundNum = useRef<1 | 2 | 3 | 4 | 5>(randomInt(1, 5) as 1 | 2 | 3 | 4 | 5)
 
     useEffect(() => {
@@ -149,15 +152,43 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
             {/* bottom row */}
             <Bumper position={[-1.5, -3.5, 0]} />
             <Bumper position={[1.5, -3.5, 0]} />
-
         </>
     }
 }
 
 function Surfaces({words}: {words: string[]}) {
+    const soundEffect = useRef<HTMLAudioElement>(null!)
+    const soundNum = useRef<1 | 2 | 3 | 4>(randomInt(1, 5) as 1 | 2 | 3 | 4)
+
+    // soundEffect.current.volume = 1.5
+
+    useEffect(() => {
+        
+        switch (soundNum.current) {
+            case 1:
+                soundEffect.current = new Audio('/WordGet_01.wav')
+                break;
+            case 2:
+                soundEffect.current = new Audio('/WordGet_02.wav')
+                break;
+            case 3:
+                soundEffect.current = new Audio('/WordGet_03.wav')
+                break;
+            case 4:
+                soundEffect.current = new Audio('/WordGet_04.wav')
+                break;
+        }
+
+    },[])
+
+
+
     const  [ gameState, setGameState]  = useContext(GameContext)
 
     const handleCollision = (e: IntersectionEnterPayload) => {
+
+        soundNum.current = randomInt(1, 4) as 1 | 2 | 3 | 4
+        soundEffect.current.play()
 
         const chooseMe = e.target.rigidBody?.userData as string
         chosen.push(chooseMe)
