@@ -29,21 +29,35 @@ type GLTFResult = GLTF & {
 type Props = JSX.IntrinsicElements['group']
 const WaffleHouseExt = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicElements['group'], ref) => {
   const { nodes, materials } = useGLTF('/WaffleHouseExt.glb') as GLTFResult
-  const matMurph = new THREE.MeshBasicMaterial()
+    const matMurph = new THREE.MeshBasicMaterial()
     matMurph.map = materials['murph color'].map
-  const matWaff = new THREE.MeshBasicMaterial()
-    matWaff.map = materials['murph color'].map
+    matMurph.map!.flipY = false
+    const matColor = new THREE.MeshBasicMaterial()
+    matColor.map = materials['color chart'].map
+    matColor.map!.flipY = false
+    const matPark = new THREE.MeshBasicMaterial()
+    matPark.map = materials.floor.map
+    matPark.map!.flipY = false
+    const matAwf = new THREE.MeshBasicMaterial()
+    matAwf.map = materials.floor.map
+    matAwf.map!.flipY = false
   return (
       <group {...props} ref={ref} dispose={null}>
-        <mesh geometry={nodes.Cube013.geometry}>
-          <Outlines />
-        </mesh>
-        <mesh geometry={nodes.Cube013_1.geometry} material={materials['color chart']}/>
-        <mesh geometry={nodes.Cube013_2.geometry} material={materials.floor}/>
-        <mesh geometry={nodes.Cube013_3.geometry} material={materials['PARKING LOT']}/>
-        <mesh geometry={nodes.Cube013_4.geometry}>
-            <Outlines />
-        </mesh>
+          <mesh geometry={nodes.Cube013.geometry} material={matMurph}>
+              <Outlines />
+          </mesh>
+          <mesh geometry={nodes.Cube013_1.geometry} material={matColor}>
+              <Outlines />
+          </mesh>
+          <mesh geometry={nodes.Cube013_2.geometry} material={materials.floor}>
+              <Outlines />
+          </mesh>
+          <mesh geometry={nodes.Cube013_3.geometry} material={matPark}>
+              <Outlines />
+          </mesh>
+          <mesh geometry={nodes.Cube013_4.geometry} material={matAwf}>
+              <Outlines />
+          </mesh>
       </group>
   )
 })
