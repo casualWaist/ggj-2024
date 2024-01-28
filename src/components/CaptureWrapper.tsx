@@ -4,7 +4,7 @@
     setGameState is basically a function that can be called anywhere in the app to change the game state.
 */
 
-import React, {createContext, Dispatch, SetStateAction, useState} from "react"
+import React, {createContext, Dispatch, SetStateAction, useState, useRef, useEffect} from "react"
 import {Canvas} from "@react-three/fiber"
 
 type GameState = 'pregame' | 'story' | 'game' | 'end'
