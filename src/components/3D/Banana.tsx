@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useGLTF } from '@react-three/drei'
+import {Outlines, useGLTF} from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import {forwardRef} from "react";
 import { Group, Object3DEventMap } from "three"
@@ -22,7 +22,9 @@ export const Banana = forwardRef<Group<Object3DEventMap>, Props>((props: Props, 
   mat.map = materials['color chart'].map
   return (
     <group ref={ref} {...props} dispose={null}>
-      <mesh geometry={nodes.banana_one_mat.geometry} material={mat} />
+      <mesh geometry={nodes.banana_one_mat.geometry} material={mat}>
+        <Outlines />
+      </mesh>
     </group>
   )
 })
