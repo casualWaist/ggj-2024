@@ -7,8 +7,9 @@
 import React, {createContext, Dispatch, SetStateAction, useState} from "react"
 import {Canvas} from "@react-three/fiber"
 
-type GameState = [ 'pregame' | 'story' | 'game' | 'end', Dispatch<SetStateAction<'pregame' | 'story' | 'game' | 'end'>>]
-export const GameContext = createContext<GameState>(null!)
+type GameState = 'pregame' | 'story' | 'game' | 'end'
+type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
+export const GameContext = createContext<GameStateContext>(null!)
 
 //Global variables
 export const chosenWords: string[10][] = []
@@ -60,10 +61,19 @@ export const adverbs: string[] = [
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<'pregame' | 'story' | 'game' | 'end' >('story')
+    const [ gameState, setGameState ] = useState<GameState>('pregame')
+    const music = useRef<HTMLAudioElement>(null!)
 
     // Placeholder for changing game state
+    useEffect(() => {
+        music.current = new Audio('/Jazz_Waffle.wav')
+        music.current.loop = true
+    }, [])
 
+    const handClick = () => {
+        music.current.play()
+        setGameState('story')
+    }
 
     // Called when recording is stopped to download the video
     const on_media_recorder_stop = (chunks: Blob[]) => {
@@ -94,9 +104,10 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     }
 
     return <GameContext.Provider value={[gameState, setGameState]}>
-        <Canvas ref={canvasRef} style={{width: '80%', height: '80%'}}>
+        <Canvas ref={canvasRef} style={{width: '700px', height: '80%'}}>
             {children}
         </Canvas>
+        { gameState === 'pregame' ? <button onClick={handClick}>Start</button> : null }
         { gameState === 'end' ? <button onClick={capture}>Capture</button> : null }
     </GameContext.Provider>
 }
