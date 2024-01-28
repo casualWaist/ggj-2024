@@ -1,18 +1,30 @@
-import { useContext, useRef, useState } from "react"
-import { useFrame } from "@react-three/fiber"
+import { useContext } from "react"
 import { Text, Float } from "@react-three/drei"
-import { GameContext, chosenWords, script } from "./CaptureWrapper"
+import { GameContext, script } from "./CaptureWrapper"
 
 let scriptIndex: number
+let combinedScript: string
+let chosenWords = [
+    ["apple"],
+    ["apple", "apple", "apple"],
+]
 
 export default function StoryResult( ) {
+    const [ gameState, setGameState ] = useContext(GameContext)
     scriptIndex = 0
+    combinedScript = ""
+    textAppear(0)
+
+    const handleClick = () => {
+        scriptIndex++
+        textAppear(scriptIndex)
+    }
 
     return <>
-        {/*<mesh onClick={handleClick} position={[0, 0, 1]}>
+        <mesh onClick={handleClick} position={[0, 0, 1]}>
             <planeGeometry args={[100, 10, 1, 1]}/>
             <meshStandardMaterial color="gray" transparent opacity={0}/>
-        </mesh>*/}
+        </mesh>
         <Float
             speed={5}
             rotationIntensity={.35}
@@ -21,27 +33,26 @@ export default function StoryResult( ) {
                 scale={[0.35, 0.35, 0.35]}
                 color="black"
                 textAlign="center"
-                position={[0, 0, 0]}
+                position={[0, 3.5, 0]}
             >
-                {textAppear(0)}
+                {combinedScript}
             </Text>
         </Float>
     </>
 }    
-const [ gameState, setGameState ] = useContext(GameContext)
 
 
-function textAppear(num: number): string {
+function textAppear(num: number) {
     let chosenWordIndex: number = 0
     let scripttt: string[] = script[0].split("_____")
-    let combinedScript: string = ""
+    
     for (let index = 0; index < scripttt.length - 1; index++) {
         const element = scripttt[index];
-        combinedScript += element
-        combinedScript += chosenWords[num][chosenWordIndex]
+        combinedScript += (element)
+        combinedScript += (chosenWords[num][chosenWordIndex])
         chosenWordIndex++
     }
-    combinedScript += scripttt[scripttt.length -1]
+    combinedScript += (scripttt[scripttt.length -1])
+
     console.log(combinedScript)
-    return combinedScript
 }

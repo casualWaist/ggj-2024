@@ -18,7 +18,7 @@ export function setScriptIndex(newVocab: string[]) {
 }
 
 //Global variables
-export const chosenWords: Array<string[]> = new Array<string[]>()
+export let chosenWords: Array<string[]> = new Array<string[]>()
 // 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
@@ -71,7 +71,7 @@ export const relations: string[] = [
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    //THE THING
+    //THE LINE TO CHANGE FOR IMMEDIATE TESTING
     const [ gameState, setGameState ] = useState<GameState>(['play', 0])
     const music = useRef<HTMLAudioElement>(null!)
     const a = useRef(document.createElement("a"))
@@ -87,6 +87,8 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     const handClick = () => {
         music.current.play()
         music.current.volume = 0.1
+        vocab = new Array<string>()
+        chosenWords = new Array<string[]>()
         setGameState(['story', 0])
     }
 
@@ -135,6 +137,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
             {children}
         </Canvas>
         { gameState[0] === 'pregame' ? <button onClick={handClick}>Start</button> : null }
+        { gameState[0] === 'play' ? <button onClick={handClick}>Replay? </button> : null }
         { gameState[0] === 'end' ? <button onClick={download}>Download</button> : null }
         { gameState[0] === 'end' ? <button onClick={copy}>Copy</button> : null }
     </GameContext.Provider>

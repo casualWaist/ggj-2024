@@ -11,8 +11,8 @@ import {PerspectiveCamera} from "@react-three/drei"
 import Plinko from "./components/Plinko.tsx"
 import Title from "./components/Title.tsx"
 import Story from "./components/Story.tsx"
-import Result from "./components/Result.tsx"
-import {chosenWords} from "./components/CaptureWrapper.tsx"
+//import Result from "./components/Result.tsx"
+//import {chosenWords} from "./components/CaptureWrapper.tsx"
 import StoryResult from "./components/StoryResult.tsx"
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
             />
             : null }*/}
 
-        { gameState[0] === 'play' ? <StoryResult/> : null }
+        { gameState[0] === 'play' ? <StoryResult /> : null }
         
         <color attach="background" args={['hotpink']} />
         <ambientLight />
