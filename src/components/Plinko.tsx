@@ -12,7 +12,7 @@ import {
     RapierRigidBody,
     RigidBody
 } from "@react-three/rapier"
-import { useContext, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
 import { GameContext, chosenWords, adjectives, nouns, verbs, adverbs } from "./CaptureWrapper"
 
@@ -70,7 +70,38 @@ export default function Plinko() {
 // }
 
 function Bumper({position}: {position: [number, number, number]}) {
-    return <RigidBody position={position}
+    const soundEffect = useRef<HTMLAudioElement>(null!)
+    const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+    let soundNum = randomInt(1, 5)
+
+    useEffect(() => {
+        switch (soundNum) {
+            case 1:
+                soundEffect.current = new Audio('/ColliderBounce_01.wav')
+                break;
+            case 2:
+                soundEffect.current = new Audio('/ColliderBounce_02.wav')
+                break;
+            case 3:
+                soundEffect.current = new Audio('/ColliderBounce_03.wav')
+                break;
+            case 4:
+                soundEffect.current = new Audio('/ColliderBounce_04.wav')
+                break;
+            case 5:
+                soundEffect.current = new Audio('/ColliderBounce_05.wav')
+                break;
+        }
+        
+    },[])
+
+    const handleCollision = () => {
+        soundNum = randomInt(1, 5)
+        soundEffect.current.play()
+    }
+
+    return <RigidBody onCollisionEnter={handleCollision}
+                      position={position}
                       rotation={[-Math.PI * 0.5, 0, 0]}
                       friction={0}
                       restitution={2}
@@ -87,6 +118,7 @@ function Bumper({position}: {position: [number, number, number]}) {
 
 
 function Bumpers({n}: {n: 3 | 4 | 5}) {
+
     if (n === 3) {
         return <>
             {/* 1st row */}

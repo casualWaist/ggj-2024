@@ -71,7 +71,8 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     }, [])
 
     const handClick = () => {
-        music.current.play()
+         music.current.play()
+         music.current.volume = 0.1
         setGameState('story')
     }
 

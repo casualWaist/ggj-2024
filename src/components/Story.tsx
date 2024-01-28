@@ -34,7 +34,7 @@ export default function Story() {
                 textAlign="center"
                 position={[0, 0, 0]}
             >
-                {script[6]}
+                {script[0]}
             </Text>
         </Float>
     </>

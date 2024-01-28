@@ -11,6 +11,7 @@ import Fish from "./3D/Fish.tsx"
 import FishWithLegs from "./3D/Fishwithlegs.tsx"
 import Knife from "./3D/Knife.tsx"
 import Cabbage from "./3D/Cabbage.tsx"
+import { script } from "./CaptureWrapper.tsx"
 
 export default function AniCube() {
     const bananaRef = useRef<THREE.Mesh>(null!)
