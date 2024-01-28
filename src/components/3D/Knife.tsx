@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { useGLTF } from '@react-three/drei'
+import {Outlines, useGLTF} from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import {forwardRef} from "react"
 import {Group, Object3DEventMap} from "three"
@@ -19,7 +19,9 @@ const Knife = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicEl
     mat.map = materials['Material.001'].map
   return (
     <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.knife.geometry} material={mat} scale={[0.806, 0.984, 0.984]} />
+      <mesh geometry={nodes.knife.geometry} material={mat} scale={[0.806, 0.984, 0.984]}>
+        <Outlines />
+      </mesh>
     </group>
   )
 })

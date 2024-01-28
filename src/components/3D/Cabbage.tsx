@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import {forwardRef} from 'react'
-import { useGLTF } from '@react-three/drei'
+import {Outlines, useGLTF} from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 import {Group, Object3DEventMap} from "three";
 
@@ -19,7 +19,9 @@ const Cabbage = forwardRef<Group<Object3DEventMap>, Props>((props: Props, ref) =
   const { nodes, materials } = useGLTF('/Cabbage.glb') as GLTFResult
   return (
     <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.cabbage.geometry} material={materials['Material.001']} rotation={[0, -1.199, 0]} />
+      <mesh geometry={nodes.cabbage.geometry} material={materials['Material.001']} rotation={[0, -1.199, 0]}>
+        <Outlines />
+      </mesh>
     </group>
   )
 })

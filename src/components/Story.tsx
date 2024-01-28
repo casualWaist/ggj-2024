@@ -1,18 +1,27 @@
-import { useState, useContext } from "react"
+import { useContext, useEffect} from "react"
 import { Text, Float } from "@react-three/drei"
 import { GameContext, script } from "./CaptureWrapper"
 import { scriptIndex, setScriptIndex } from "../App.tsx"
 
 
 export default function Story() {
-    const gameState = useContext(GameContext)
-    //const canvasElement = document.querySelector('canvas')
+    const [ gameState, setGameState ] = useContext(GameContext)
 
-    //canvasElement!.addEventListener('pointerdown', () => {
-    //})
+    useEffect(() => {
+        const canvasElement = document.querySelector('canvas')
+        const pd = () => {
+            setGameState((prevState) => ["game", prevState[1]])
+        }
+        canvasElement!.addEventListener('pointerdown', pd)
+        return () => {
+            canvasElement!.removeEventListener('pointerdown', pd)
+        }
+    }, [setGameState])
+
+
     const handleClick = () => {
         wordType()
-        gameState[1]("game")
+        setGameState((prevState) => ['game', prevState[1]])
     }
 
     return <>
@@ -30,7 +39,9 @@ export default function Story() {
                 textAlign="center"
                 position={[0, 0, 0]}
             >
+                //WHICH ONE IS RIGHT??
                 {script[scriptIndex]}
+                {/*{script[gameState[1]]}*/}
             </Text>
         </Float>
     </>

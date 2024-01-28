@@ -14,6 +14,7 @@ import {
 } from "@react-three/rapier"
 import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
+import { Text } from "@react-three/drei"
 import { GameContext, chosenWords, adjectives, nouns, verbs, adverbs, relations } from "./CaptureWrapper"
 import { vocab } from "../App.tsx"
 
@@ -32,14 +33,29 @@ export default function Plinko() {
     vocabLength = vocab.length
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
-        console.log(e)
         if (e.uv) { xPos.current = e.point.x }
         setGo(true)
     }
 
+    useEffect(() => {
+        const canvasElement = document.querySelector('canvas')
+        const pd = () => {
+            accelerate.current = true
+        }
+        const pu = () => {
+            accelerate.current = false
+        }
+        canvasElement!.addEventListener('pointerdown', pd)
+        canvasElement!.addEventListener('pointerup', pu)
+        return () => {
+            canvasElement!.removeEventListener('pointerdown', pd)
+            canvasElement!.removeEventListener('pointerup', pu)
+        }
+    }, [])
+
     useFrame(() => {
         if (go && accelerate.current) {
-            cubeRef.current.applyImpulse({x: 0, y: -0.1, z: 0}, true)
+            cubeRef.current.applyImpulse({x: 0, y: -0.3, z: 0}, true)
         }
     })
 
@@ -49,7 +65,7 @@ export default function Plinko() {
     */
     return <Physics debug gravity={[0, -1, 0]}>
 
-        { go ? null :<mesh onClick={handleClick}>
+        { go ? null :<mesh onPointerDown={handleClick}>
             <planeGeometry args={[100, 10, 1, 1]}/>
             <meshStandardMaterial color="gray" transparent opacity={0}/>
         </mesh> }
@@ -155,10 +171,10 @@ function choose(word: string) {
 function Bumper({position}: {position: [number, number, number]}) {
     const soundEffect = useRef<HTMLAudioElement>(null!)
     const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-    let soundNum = randomInt(1, 5)
+    const soundNum = useRef<1 | 2 | 3 | 4 | 5>(randomInt(1, 5) as 1 | 2 | 3 | 4 | 5)
 
     useEffect(() => {
-        switch (soundNum) {
+        switch (soundNum.current) {
             case 1:
                 soundEffect.current = new Audio('/ColliderBounce_01.wav')
                 break;
@@ -175,11 +191,11 @@ function Bumper({position}: {position: [number, number, number]}) {
                 soundEffect.current = new Audio('/ColliderBounce_05.wav')
                 break;
         }
-        
+
     },[])
 
     const handleCollision = () => {
-        soundNum = randomInt(1, 5)
+        soundNum.current = randomInt(1, 5) as 1 | 2 | 3 | 4 | 5
         soundEffect.current.play()
     }
 
@@ -223,7 +239,20 @@ function Bumpers({n}: {n: 3 | 4 | 5}) {
 }
 
 function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
+    const  [ gameState, setGameState]  = useContext(GameContext)
+
     const handleCollision = (e: IntersectionEnterPayload) => {
+        //// TODO: do word array mutation and check for completion
+
+        ///* @ts-expect-error/n not part of type*/
+        //chosenWords.push([e.target.rigidBody?.userData.n])
+
+        //let allWordsForPart = 0
+
+        //if (chosenWords.length > 0) { allWordsForPart = 1 }
+
+        //if ( gameState[1] < 9) { setGameState((prevState) => ['story', prevState[1] + allWordsForPart]) }
+        //else { setGameState((prevState) => ['play', prevState[1]]) }
         console.log(e, e.target.rigidBody?.userData)
         choose(e.target.rigidBody?.userData as string)
     }
@@ -260,7 +289,7 @@ function Surfaces({n, words}: {n: 3 | 4 | 5, words: string[]}) {
                 <mesh>
                     <boxGeometry args={[3, 1]} />
                     <meshStandardMaterial color="gray"/>
-                </mesh>
+                </mesh>       
             </RigidBody>
             <RigidBody sensor
                        onIntersectionEnter={handleCollision}
