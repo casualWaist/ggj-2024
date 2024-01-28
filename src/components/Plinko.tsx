@@ -14,6 +14,7 @@ import {
 import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
 import { GameContext, vocab, chosenWords, adjectives, nouns, verbs, adverbs, relations } from "./CaptureWrapper"
+import { Float, Text } from "@react-three/drei"
 
 //for choosing words
 let index: number
@@ -274,6 +275,17 @@ function Surfaces({words}: {words: string[]}) {
                 <meshStandardMaterial color="gray"/>
             </mesh>
         </RigidBody>
+        <Float speed={5}
+               rotationIntensity={.15}
+               floatIntensity={0.5}
+        >
+        <Text
+        fontSize={0.5}
+        position={[0, -3.5, 0]}>
+        
+            sample
+        </Text>
+        </Float>
         <RigidBody sensor
                    onIntersectionEnter={handleCollision}
                    userData={{n: words[1]}}
@@ -284,6 +296,17 @@ function Surfaces({words}: {words: string[]}) {
                 <meshStandardMaterial color="gray"/>
             </mesh>
         </RigidBody>
+        <Float speed={5}
+               rotationIntensity={.15}
+               floatIntensity={0.5}
+        >
+            <Text
+            fontSize={0.5}
+            position={[-3, -3.5, 0]}>
+            
+                sample
+            </Text>
+        </Float>
         <RigidBody sensor
                    onIntersectionEnter={handleCollision}
                    userData={{n: words[2]}}
@@ -292,7 +315,18 @@ function Surfaces({words}: {words: string[]}) {
             <mesh>
                 <boxGeometry args={[3, 1]} />
                 <meshStandardMaterial color="gray"/>
-            </mesh>
+            </mesh> 
         </RigidBody>
+        <Float speed={5}
+               rotationIntensity={.15}
+               floatIntensity={0.5}
+        >
+            <Text
+                fontSize={0.5}
+                position={[3, -3.5, 0]}>
+            
+                sample
+            </Text>
+        </Float>
     </>
 }
