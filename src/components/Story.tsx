@@ -1,11 +1,17 @@
 import { useContext } from "react"
 import { Text, Float } from "@react-three/drei"
-import { GameContext, script, setScriptIndex, vocab } from "./CaptureWrapper"
+import { GameContext, chosenWords, script, setScriptIndex, vocab, adjectives, nouns, verbs, adverbs, relations } from "./CaptureWrapper"
 
+//for choosing words
+export let index: number
+export let chosen: string[] = new Array<string>();
+export function addToIndex() { index++ }
 
 export default function Story() {
     const [ gameState, setGameState ] = useContext(GameContext)
 
+    index = 0
+    chosen = []
 
     const handleClick = () => {
         let words: string[]
@@ -69,4 +75,67 @@ export default function Story() {
             </Text>
         </Float>
     </>
+}
+
+
+const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+//RANDOM WORDS
+export function randomWords(): string[] {
+    let len: number = 3
+    let arr: string[] = nouns
+    let flag = false
+    const threeRandoms: string[] = new Array<string>();
+    let indeces: string[] = []
+
+    switch (vocab[index]) {
+        case "adj":
+        case "adjective":
+            len = adjectives.length
+            arr = adjectives
+            break;
+        case "noun":
+            len = nouns.length
+            arr = nouns
+            break;
+        case "adverb":
+            len = adverbs.length
+            arr = adverbs
+            break;
+        case "verb":
+            len = verbs.length
+            arr = verbs
+            break;
+        case "relation":
+            len = relations.length
+            arr = relations
+            break;
+        case "error":
+            threeRandoms.push("ERROR")
+            flag = true
+            break;
+        default:
+            indeces = vocab[index].split("/")
+            threeRandoms.push( chosenWords[+indeces[0] -1][+indeces[1] -1] )
+            flag = true
+            break;
+    }
+
+    let num: number = randomInt(0, len)
+    while(threeRandoms.length < 3) {
+        //making sure It's not already a chosenWord
+        for (let i = 0; i < chosenWords.length; i++) {
+            for (let j = 0; j < chosenWords[i].length; j++) {
+                const element = chosenWords[i][j];
+                if(arr[num] === element){
+                    flag = true
+                }
+            }
+        }
+        if(!flag){
+            threeRandoms.push(arr[num])
+        }
+        num = randomInt(0, len)
+    }
+    return threeRandoms
 }

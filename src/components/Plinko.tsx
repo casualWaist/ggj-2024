@@ -13,12 +13,9 @@ import {
 } from "@react-three/rapier"
 import { useContext, useEffect, useRef, useState } from "react"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
-import { GameContext, vocab, chosenWords, adjectives, nouns, verbs, adverbs, relations } from "./CaptureWrapper"
+import { GameContext, chosenWords, vocab } from "./CaptureWrapper"
+import { randomWords, index, chosen, addToIndex } from "./Story.tsx"
 
-//for choosing words
-let index: number
-let vocabLength: number
-let chosen: string[] = new Array<string>();
 
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
@@ -26,8 +23,6 @@ export default function Plinko() {
     const accelerate = useRef<boolean>(false)
     const xPos = useRef<number>(0)
 
-    index = 0
-    vocabLength = vocab.length
 
     const handleClick = (e: ThreeEvent<MouseEvent>) => {
         if (e.uv) { xPos.current = e.point.x }
@@ -85,68 +80,6 @@ export default function Plinko() {
         <Surfaces words={randomWords()}/>
 
     </Physics>
-}
-
-const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-//RANDOM WORDS
-function randomWords(): string[] {
-    let len: number = 3
-    let arr: string[] = nouns
-    let flag = false
-    const threeRandoms: string[] = new Array<string>();
-    let indeces: string[] = []
-
-    switch (vocab[index]) {
-        case "adj":
-        case "adjective":
-            len = adjectives.length
-            arr = adjectives
-            break;
-        case "noun":
-            len = nouns.length
-            arr = nouns
-            break;
-        case "adverb":
-            len = adverbs.length
-            arr = adverbs
-            break;
-        case "verb":
-            len = verbs.length
-            arr = verbs
-            break;
-        case "relation":
-            len = relations.length
-            arr = relations
-            break;
-        case "error":
-            threeRandoms.push("ERROR")
-            flag = true
-            break;
-        default:
-            indeces = vocab[index].split("/")
-            threeRandoms.push( chosenWords[+indeces[0] -1][+indeces[1] -1] )
-            flag = true
-            break;
-    }
-
-    let num: number = randomInt(0, len)
-    while(threeRandoms.length < 3) {
-        //making sure It's not already a chosenWord
-        for (let i = 0; i < chosenWords.length; i++) {
-            for (let j = 0; j < chosenWords[i].length; j++) {
-                const element = chosenWords[i][j];
-                if(arr[num] === element){
-                    flag = true
-                }
-            }
-        }
-        if(!flag){
-            threeRandoms.push(arr[num])
-        }
-        num = randomInt(0, len)
-    }
-    return threeRandoms
 }
 
 
@@ -228,10 +161,9 @@ function Surfaces({words}: {words: string[]}) {
         const chooseMe = e.target.rigidBody?.userData as string
         chosen.push(chooseMe)
 
-        index += 1;
-        if (index == vocabLength) {
+        addToIndex()
+        if (index == vocab.length) {
             chosenWords.push(chosen)
-            chosen = [""]
             if ( gameState[1] < 9) { setGameState((prevState) => ['story', prevState[1] + 1]) }
             else { setGameState((prevState) => ['play', prevState[1]]) }
         }
