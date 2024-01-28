@@ -7,6 +7,9 @@ import Fish from "./3D/Fish"
 import FishWithLegs from "./3D/Fishwithlegs"
 import Knife from "./3D/Knife"
 import Cabbage from "./3D/Cabbage"
+import Soda from "./3D/Soda.tsx"
+import Fries from "./3D/Fries.tsx"
+import Burger from "./3D/Burger.tsx";
 
 export default function AniCube() {
     const bananaRef = useRef<THREE.Group>(null!)
@@ -14,6 +17,9 @@ export default function AniCube() {
     const fishLegsRef = useRef<THREE.Group>(null!)
     const cabbageRef = useRef<THREE.Group>(null!)
     const knifeRef = useRef<THREE.Group>(null!)
+    const sodaRef = useRef<THREE.Group>(null!)
+    const friesRef = useRef<THREE.Group>(null!)
+    const burgerRef = useRef<THREE.Group>(null!)
 
     /*
         useEffect is used to set up the animation. The function is called on mount.
@@ -42,13 +48,19 @@ export default function AniCube() {
         fishLegsRef.current.rotation.y += Math.sin(delta)
         knifeRef.current.rotation.y += Math.sin(delta)
         cabbageRef.current.rotation.y += Math.sin(delta)
+        sodaRef.current.rotation.y += Math.sin(delta)
+        friesRef.current.rotation.y += Math.sin(delta)
+        burgerRef.current.rotation.y += Math.sin(delta)
     })
 
     return <>
         <Banana ref={bananaRef} position={[2, 2, 0]}/>
         <Fish ref={fishRef} position={[5, 0, 0]}/>
         <FishWithLegs ref={fishLegsRef} position={[4, -2, 0]}/>
-        <Knife ref={knifeRef} position={[0, -2, 0]}/>
+        <Knife ref={knifeRef} position={[0, -4, 0]}/>
         <Cabbage ref={cabbageRef} position={[-3, -3, 0]}/>
+        <Soda ref={sodaRef} position={[2, -2, 0]} />
+        <Fries ref={friesRef} position={[4, 2, 0]} />
+        <Burger ref={burgerRef} position={[0, 3, 0]} />
     </>
 }
