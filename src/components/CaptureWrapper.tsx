@@ -13,7 +13,7 @@ export const GameContext = createContext<GameStateContext>(null!)
 
 //Global variables
 export const chosenWords: string[10][] = []
-// verb
+// 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
 // 3) adj, noun, past verb, past verb, past verb
@@ -62,6 +62,7 @@ export const adverbs: string[] = [
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     const [ gameState, setGameState ] = useState<GameState>('story')
+    const [ gameState, setGameState ] = useState<GameState>('pregame')
     const music = useRef<HTMLAudioElement>(null!)
 
     // Placeholder for changing game state

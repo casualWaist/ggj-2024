@@ -1,9 +1,9 @@
 /*
     This is an example of a component that uses the three fiber and gsap animation hooks.
 */
-
-import {useEffect, useRef} from "react"
-import {useFrame} from "@react-three/fiber"
+import { chosenWords } from "./CaptureWrapper.tsx"
+import { useEffect, useRef } from "react"
+import { useFrame } from "@react-three/fiber"
 import * as THREE from "three"
 import gsap from "gsap"
 import Banana from "./3D/Banana.tsx"
