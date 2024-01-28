@@ -122,6 +122,7 @@ export function randomWords() {
             break;
     }
 
+    //why does it only do two sometimes???
     let num: number = randomInt(0, len)
     while(threeRandoms.length < 3) {
         //making sure It's not already a chosenWord
@@ -137,6 +138,9 @@ export function randomWords() {
             threeRandoms.push(arr[num])
         }
         num = randomInt(0, len)
+    }
+    if(threeRandoms.length < 3){
+        threeRandoms.push(arr[randomInt(0, len)])
     }
     wordsDisplayed = threeRandoms
 }

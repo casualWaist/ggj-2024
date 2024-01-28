@@ -30,6 +30,19 @@ export let chosenWords: Array<string[]> = new Array<string[]>()
 // 8) verb, #3 noun, adj
 // 9) adj, noun, #2 noun, present tense verb
 
+export let exampleChosenWords: Array<string[]> = [
+    ["hit"],
+    ["pink", "apple", "hit"],
+    ["hit", "punch", "apple"],
+    ["pink", "apple", "hit", "punch", "whack"],
+    ["apple", "apple"],
+    ["hit", "pink", "apple"],
+    ["hit", "happily", "punch", "sadly"],
+    ["uncle", "pink", "apple"],
+    ["hit", "apple", "pink"],
+    ["pink", "apple", "apple", "hit"]
+]
+
 export const script: string[] = [
     //tutorial
     "Murphy has insomnia, so like many other nights,\n\nhe finds himself _____ Waffle House at 2 am.",
@@ -71,8 +84,8 @@ export const relations: string[] = [
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    //THE LINE TO CHANGE FOR IMMEDIATE TESTING
-    const [ gameState, setGameState ] = useState<GameState>(['pregame', 0])
+    //THE LINE TO CHANGE !!! CHANGE THIS FOR IMMEDIATE TESTING
+    const [ gameState, setGameState ] = useState<GameState>(['play', 0])
     const music = useRef<HTMLAudioElement>(null!)
     const a = useRef(document.createElement("a"))
     const url = useRef<string>('')
