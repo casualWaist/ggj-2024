@@ -66,19 +66,19 @@ export const script: string[] = [
     "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his XXX (previous noun), and _____ home."
 ]
 export const adjectives: string[] = [
-    "Sticky", "Gooey", "Tasty", "Slimy", "Round", "Massive", "Tiny", "Chewy", "Cheesy", "Peppery", "Noisy", "Smelly", "Stinky", "Snooty", "Stumpy"
+    "Sticky", "Gooey", "Tasty", "Slimy", "Round", "Massive", "Tiny", "Chewy", "Cheesy", "Peppery", "Noisy", "Smelly", "Stinky", "Snooty", "Stumpy", "Wet", "Moist", "Salty", "Chuffed", "Blue", "Goofy", "Shy", "Happy", "Morose", "Somber", "Wild", "Nervous", "Nauseous", "Hyper", "Childlike", "Elderly", "Formal", "Annoying", "Lovable", "Whimsical", "Wonderful", "Magical"
 ]
 export const verbs: string[] = [
-    "Smooch", "Maim", "Kick", "Sing", "Fart", "Slink", "Roll", "Shriek", "Walk", "Think", "Lick", "Crack", "Chihuahua", "Eat", "Swallow", "Flick", "Twist", "Pull", "Spin", "Bop"
+    "Smooch", "Maim", "Kick", "Sing", "Fart", "Slink", "Roll", "Shriek", "Walk", "Think", "Lick", "Crack", "Eat", "Swallow", "Flick", "Twist", "Pull", "Spin", "Bop", "Work", "Travel", "Drive", "Hop", "Skip", "Whip", "Twerk", "Nae-nae", "Dance", "Twirl", "Doze", "Jump", "Fall", "Slap", "Pedal", "Steal", "Toy", "Cartwheel", "Crawl"
 ]
 export const adverbs: string[] = [
-    "Nasally", "Rapidly", "Boisterously", "Doggedly", "Flatulently", "Angrily", "Noisily", "Tiredly", "Clumsily"
+    "Nasally", "Rapidly", "Boisterously", "Doggedly", "Flatulently", "Angrily", "Noisily", "Tiredly", "Clumsily", "Excitedly", "Hurridly", "Worrily", "Daringly", "Sheepishly", "Flimsily", "Aggresively", "Passive-aggresively", "Sleepily", "Candidly", "Silently", "Loudly", "Brightly", "Invisibly", "Slowly", "Hungrily"
 ]
 export const nouns: string[] = [
-
+    "Banana", "Banana peel", "Donut", "Bagel", "Crab", "Monkey", "Eye", "Knife", "Cabbage", "Tire", "Fish", "Pasta", "French fries", "Hot dog", "Burger", "Soda", "Bug", "Butter", "Dog", "Cheese", "Fridge", "Gummy worm", "Ice cream", "Mug", "Worm", "Rock", "Scooter", "Snake", "Spring", "Toast", "Fly", "Coffin", "Lips", "Forklift", "Reverse mermaid"
 ]
 export const relations: string[] = [
-    "Father", "Mother", "Brother", "Sister", "Grandfather", "Papa", "Mama", "Sibling", "Rival", "Enemy", "Best friend", "Mortal enemy", "Lawyer", "Dentist", "Client", "Caretaker", "Therapist"
+    "Father", "Mother", "Brother", "Sister", "Grandfather", "Papa", "Mama", "Sibling", "Rival", "Enemy", "Best friend", "Mortal enemy", "Lawyer", "Dentist", "Client", "Caretaker", "Therapist", "Guardian angel"
 ]
 
 
