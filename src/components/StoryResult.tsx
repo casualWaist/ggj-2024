@@ -1,13 +1,11 @@
 import { useContext } from "react"
 import { Text, Float } from "@react-three/drei"
 import { GameContext, script } from "./CaptureWrapper"
+import { chosenWords } from "./CaptureWrapper"
 
 let scriptIndex: number
 let combinedScript: string
-let chosenWords = [
-    ["apple"],
-    ["apple", "apple", "apple"],
-]
+
 
 export default function StoryResult( ) {
     const [ gameState, setGameState ] = useContext(GameContext)
@@ -49,7 +47,7 @@ function textAppear(num: number) {
     for (let index = 0; index < scripttt.length - 1; index++) {
         const element = scripttt[index];
         combinedScript += (element)
-        combinedScript += (chosenWords[num][chosenWordIndex])
+        combinedScript += (chosenWords[num][chosenWordIndex].n)
         chosenWordIndex++
     }
     combinedScript += (scripttt[scripttt.length -1])
