@@ -1,8 +1,6 @@
-
 import { useState, useContext } from "react"
 import { Text, Float } from "@react-three/drei"
-import { GameContext } from "./CaptureWrapper"
-import { script } from "./CaptureWrapper"
+import { GameContext, script } from "./CaptureWrapper"
 
 export default function Story() {
     const [waiting, setWaiting] = useState<boolean>(false)

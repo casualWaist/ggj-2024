@@ -12,9 +12,9 @@ import {
     RapierRigidBody,
     RigidBody
 } from "@react-three/rapier"
-import {useContext, useRef, useState} from "react"
-import {ThreeEvent, useFrame} from "@react-three/fiber"
-import {GameContext} from "./CaptureWrapper.tsx";
+import { useContext, useRef, useState } from "react"
+import { ThreeEvent, useFrame } from "@react-three/fiber"
+import { GameContext, chosenWords, adjectives, nouns, verbs, adverbs } from "./CaptureWrapper"
 
 export default function Plinko() {
     const cubeRef = useRef<RapierRigidBody>(null!)
