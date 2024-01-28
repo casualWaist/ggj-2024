@@ -3,7 +3,6 @@
     I just set up a very basic plinko board.
     Play with restitution, friction, and gravity to get the desired effect.
 */
-
 import {
     CapsuleCollider,
     CuboidCollider,
