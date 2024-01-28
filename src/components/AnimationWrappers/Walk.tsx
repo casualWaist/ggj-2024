@@ -8,7 +8,7 @@ export default function Walk({done, children}: {done: () => void, children: Reac
     useEffect(() => {
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({repeat: -1})
-            tl.to(groupRef.current.rotation, {z: -Math.PI * 2, duration: 0})
+            tl.to(groupRef.current.position, {y: 0.1, duration: 0.2})
         })
         return () => ctx.kill(false)
     }, [])
