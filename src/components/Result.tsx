@@ -14,6 +14,7 @@ import Shake from "./AnimationWrappers/Shake.tsx"
 import {GameContext} from "./CaptureWrapper.tsx";
 
 type resultProps = {
+    result0: string[]
     result1: string[]
     result2: string[]
     result3: string[]
@@ -26,7 +27,7 @@ type resultProps = {
 }
 
 export default function Result(
-    { result1, result2, result3, result4, result5, result6, result7, result8, result9 }: resultProps) {
+    { result0, result1, result2, result3, result4, result5, result6, result7, result8, result9 }: resultProps) {
     const [ act, setAct ] = useState<number>(1)
     const gameState = useContext(GameContext)
 
@@ -34,6 +35,7 @@ export default function Result(
     const finish = () => { gameState[1]((prev) => ['end', prev[1]]) }
 
     return <>
+        { act === 0 ? <Result0 result={result0} done={advance}/> : null }
         { act === 1 ? <Result1 result={result1} done={advance}/> : null }
         { act === 2 ? <Result2 result={result2} done={advance}/> : null }
         { act === 3 ? <Result3 result={result3} done={advance}/> : null }
@@ -44,6 +46,19 @@ export default function Result(
         { act === 8 ? <Result8 result={result8} done={advance}/> : null }
         { act === 9 ? <Result9 result={result9} done={finish}/> : null }
     </>
+}
+
+function Result0({ result, done }: { result: string[], done: () => void}) {
+    console.log(result)
+    const burgerRef = useRef<THREE.Group>(null!)
+
+    useFrame((_state, delta,) => {
+        burgerRef.current.rotation.y += Math.sin(delta)
+    })
+
+    return <FlyAcross done={done}>
+        <Burger ref={burgerRef} position={[0, 3, 0]}/>
+    </FlyAcross>
 }
 
 function Result1({ result, done }: { result: string[], done: () => void}) {

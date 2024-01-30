@@ -11,8 +11,14 @@ type GameState = ['pregame' | 'story' | 'game' | 'play' | 'end', number]
 type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
 export const GameContext = createContext<GameStateContext>(null!)
 
+//Variables
+export let vocab: string[]
+export function setScriptIndex(newVocab: string[]) {
+    vocab = newVocab
+}
+
 //Global variables
-export const chosenWords: string[][] = []
+export let chosenWords: Array<string[]> = new Array<string[]>()
 // 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
@@ -24,44 +30,62 @@ export const chosenWords: string[][] = []
 // 8) verb, #3 noun, adj
 // 9) adj, noun, #2 noun, present tense verb
 
+export let exampleChosenWords: Array<string[]> = [
+    ["hit"],
+    ["pink", "apple", "hit"],
+    ["hit", "punch", "apple"],
+    ["pink", "apple", "hit", "punch", "whack"],
+    ["apple", "apple"],
+    ["hit", "pink", "apple"],
+    ["hit", "happily", "punch", "sadly"],
+    ["uncle", "pink", "apple"],
+    ["hit", "apple", "pink"],
+    ["pink", "apple", "apple", "hit"]
+]
+
 export const script: string[] = [
     //tutorial
     "Murphy has insomnia, so like many other nights,\n\nhe finds himself _____ Waffle House at 2 am.",
     //1
-    "He _____ _____ _____ in the early morning.",
+    "Riding in on his _____ _____, \n\nMurphy parks in the lot and _____ inside.",
     //2
-    "Taking a seat next to a _____ _____ ,\n\nhe orders his hashbrowns _____ , _____ , and _____ .",
+    "He _____ _____ _____ in the early morning.",
     //3
-    "The XXX (previous noun) orders a _____ .",
+    "Taking a seat next to a _____ _____ ,\n\nhe orders his hashbrowns _____ , _____ , and _____ .",
     //4
-    "When the meal arrives, he exclaims:\n\n\"I _____ _____ _____ !\" and eats _____ .",
+    "The XXX (previous noun) orders a _____ .",
     //5
-    "Murphy's stomach _____ _____ ,\n\nwhich makes Murphy _____ _____ .",
+    "When the meal arrives, he exclaims:\n\n\"I _____ _____ _____ !\" and eats _____ .",
     //6
-    "But then suddenly, and without warning, Murphy's _____ ,\n\nthe _____ _____ , sat down across to him.",
+    "Murphy's stomach _____ _____ ,\n\nwhich makes Murphy _____ _____ .",
     //7
-    "They started to _____ ,\n\nand the XXX (previous noun) left, _____ .",
+    "But then suddenly, and without warning, Murphy's _____ ,\n\nthe _____ _____ , sat down across to him.",
     //8
-    "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his XXX (previous noun), and _____ home.",
+    "They started to _____ ,\n\nand the XXX (previous noun) left, _____ .",
     //9
-    "",
-]
-export const nouns: string[] = [
-
+    "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his XXX (previous noun), and _____ home."
 ]
 export const adjectives: string[] = [
-
+    "Sticky", "Gooey", "Tasty", "Slimy", "Round", "Massive", "Tiny", "Chewy", "Cheesy", "Peppery", "Noisy", "Smelly", "Stinky", "Snooty", "Stumpy", "Wet", "Moist", "Salty", "Chuffed", "Blue", "Goofy", "Shy", "Happy", "Morose", "Somber", "Wild", "Nervous", "Nauseous", "Hyper", "Childlike", "Elderly", "Formal", "Annoying", "Lovable", "Whimsical", "Wonderful", "Magical"
 ]
 export const verbs: string[] = [
-
+    "Smooch", "Maim", "Kick", "Sing", "Fart", "Slink", "Roll", "Shriek", "Walk", "Think", "Lick", "Crack", "Eat", "Swallow", "Flick", "Twist", "Pull", "Spin", "Bop", "Work", "Travel", "Drive", "Hop", "Skip", "Whip", "Twerk", "Nae-nae", "Dance", "Twirl", "Doze", "Jump", "Fall", "Slap", "Pedal", "Steal", "Toy", "Cartwheel", "Crawl"
 ]
 export const adverbs: string[] = [
-
+    "Nasally", "Rapidly", "Boisterously", "Doggedly", "Flatulently", "Angrily", "Noisily", "Tiredly", "Clumsily", "Excitedly", "Hurridly", "Worrily", "Daringly", "Sheepishly", "Flimsily", "Aggresively", "Passive-aggresively", "Sleepily", "Candidly", "Silently", "Loudly", "Brightly", "Invisibly", "Slowly", "Hungrily"
 ]
+export const nouns: string[] = [
+    "Banana", "Banana peel", "Donut", "Bagel", "Crab", "Monkey", "Eye", "Knife", "Cabbage", "Tire", "Fish", "Pasta", "French fries", "Hot dog", "Burger", "Soda", "Bug", "Butter", "Dog", "Cheese", "Fridge", "Gummy worm", "Ice cream", "Mug", "Worm", "Rock", "Scooter", "Snake", "Spring", "Toast", "Fly", "Coffin", "Lips", "Forklift", "Reverse mermaid"
+]
+export const relations: string[] = [
+    "Father", "Mother", "Brother", "Sister", "Grandfather", "Papa", "Mama", "Sibling", "Rival", "Enemy", "Best friend", "Mortal enemy", "Lawyer", "Dentist", "Client", "Caretaker", "Therapist", "Guardian angel"
+]
+
 
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
-    const [ gameState, setGameState ] = useState<GameState>(['pregame', 0])
+    //THE LINE TO CHANGE !!! CHANGE THIS FOR IMMEDIATE TESTING
+    const [ gameState, setGameState ] = useState<GameState>(['play', 0])
     const music = useRef<HTMLAudioElement>(null!)
     const a = useRef(document.createElement("a"))
     const url = useRef<string>('')
@@ -74,8 +98,10 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     }, [])
 
     const handClick = () => {
-         music.current.play()
-         music.current.volume = 0.1
+        music.current.play()
+        music.current.volume = 0.1
+        vocab = new Array<string>()
+        chosenWords = new Array<string[]>()
         setGameState(['story', 0])
     }
 
@@ -90,12 +116,10 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     })
 
     const download = () => {
-        console.log(a.current, url.current)
         a.current.click()
     }
 
     const copy = () => {
-        console.log(url.current)
         navigator.clipboard.writeText(url.current)
     }
 
@@ -126,6 +150,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
             {children}
         </Canvas>
         { gameState[0] === 'pregame' ? <button onClick={handClick}>Start</button> : null }
+        { gameState[0] === 'play' ? <button onClick={handClick}>Replay? </button> : null }
         { gameState[0] === 'end' ? <button onClick={download}>Download</button> : null }
         { gameState[0] === 'end' ? <button onClick={copy}>Copy</button> : null }
     </GameContext.Provider>
