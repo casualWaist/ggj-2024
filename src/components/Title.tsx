@@ -11,6 +11,6 @@ export default function Title() {
         })
         return () => ctx.kill(false)
     }, [])
-    
+
     return <Float><Torus ref={titleRef} args={[1, 0.5, 16, 100]} position={[0, 5, 0]} rotation={[0, 0, 0]}/></Float>
 }
