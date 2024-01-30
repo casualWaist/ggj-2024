@@ -85,7 +85,7 @@ export const relations: string[] = [
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     //THE LINE TO CHANGE !!! CHANGE THIS FOR IMMEDIATE TESTING
-    const [ gameState, setGameState ] = useState<GameState>(['play', 0])
+    const [ gameState, setGameState ] = useState<GameState>(['pregame', 0])
     const music = useRef<HTMLAudioElement>(null!)
     const a = useRef(document.createElement("a"))
     const url = useRef<string>('')
@@ -93,7 +93,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
 
     // Placeholder for changing game state
     useEffect(() => {
-        music.current = new Audio('/Jazz_Waffle.wav')
+        music.current = new Audio('/Music/Jazz_Waffle.wav')
         music.current.loop = true
     }, [])
 

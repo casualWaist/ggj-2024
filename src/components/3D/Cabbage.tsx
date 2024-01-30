@@ -16,7 +16,7 @@ type GLTFResult = GLTF & {
 type Props = JSX.IntrinsicElements['group']
 
 const Cabbage = forwardRef<Group<Object3DEventMap>, Props>((props: Props, ref) => {
-  const { nodes, materials } = useGLTF('/Cabbage.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/3DModels/Cabbage.glb') as GLTFResult
   return (
     <group {...props} ref={ref} dispose={null}>
       <mesh geometry={nodes.cabbage.geometry} material={materials['Material.001']} rotation={[0, -1.199, 0]}>
@@ -27,4 +27,4 @@ const Cabbage = forwardRef<Group<Object3DEventMap>, Props>((props: Props, ref) =
 })
 export default Cabbage
 
-useGLTF.preload('/Cabbage.glb')
+useGLTF.preload('/3DModels/Cabbage.glb')

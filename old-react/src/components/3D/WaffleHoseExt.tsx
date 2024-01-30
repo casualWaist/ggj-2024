@@ -28,7 +28,7 @@ type GLTFResult = GLTF & {
 
 type Props = JSX.IntrinsicElements['group']
 const WaffleHouseExt = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicElements['group'], ref) => {
-  const { nodes, materials } = useGLTF('/WaffleHouseExt.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/3DModels/WaffleHouseExt.glb') as GLTFResult
     const matMurph = new THREE.MeshBasicMaterial()
     matMurph.map = materials['murph color'].map
     matMurph.map!.flipY = false
@@ -63,4 +63,4 @@ const WaffleHouseExt = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.In
 })
 export default WaffleHouseExt
 
-useGLTF.preload('/WaffleHouseExt.glb')
+useGLTF.preload('/3DModels/WaffleHouseExt.glb')

@@ -16,7 +16,7 @@ type GLTFResult = GLTF & {
 type Props = JSX.IntrinsicElements['group']
 
 export const Banana = forwardRef<Group<Object3DEventMap>, Props>((props: Props, ref) => {
-  const { nodes, materials } = useGLTF('/banana.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/3DModels/banana.glb') as GLTFResult
 
   const mat = new THREE.MeshBasicMaterial()
   mat.map = materials['color chart'].map
@@ -31,4 +31,4 @@ export const Banana = forwardRef<Group<Object3DEventMap>, Props>((props: Props, 
 
 export default Banana
 
-useGLTF.preload('/banana.glb')
+useGLTF.preload('3DModels/banana.glb')

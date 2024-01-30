@@ -15,7 +15,7 @@ type GLTFResult = GLTF & {
 type Props = JSX.IntrinsicElements['group']
 
 const FishWithLegs = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicElements['group'], ref) => {
-  const { nodes, materials } = useGLTF('/Fishwithlegs.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/3DModels/Fishwithlegs.glb') as GLTFResult
   const mat = new THREE.MeshBasicMaterial()
   mat.map = materials['Material.001'].map
   return (
@@ -28,4 +28,4 @@ const FishWithLegs = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.Intr
 })
 export default FishWithLegs
 
-useGLTF.preload('/Fishwithlegs.glb')
+useGLTF.preload('/3DModels/Fishwithlegs.glb')

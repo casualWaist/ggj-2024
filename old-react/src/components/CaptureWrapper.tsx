@@ -93,7 +93,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
 
     // Placeholder for changing game state
     useEffect(() => {
-        music.current = new Audio('/Jazz_Waffle.wav')
+        music.current = new Audio('/Music/Jazz_Waffle.wav')
         music.current.loop = true
     }, [])
 
