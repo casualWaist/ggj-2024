@@ -1,6 +1,6 @@
 import { useContext, useEffect} from "react"
 import { Text, Float } from "@react-three/drei"
-import { GameContext, script } from "./CaptureWrapper"
+import { GameContext, script, storyPOS } from "./CaptureWrapper"
 
 export default function Story() {
     const [ gameState, setGameState ] = useContext(GameContext)
@@ -8,7 +8,7 @@ export default function Story() {
     useEffect(() => {
         const canvasElement = document.querySelector('canvas')
         const pd = () => {
-            setGameState((prevState) => ["game", prevState[1]])
+            setGameState({ section: 'game' })
         }
         canvasElement!.addEventListener('pointerdown', pd)
         return () => {
@@ -16,9 +16,8 @@ export default function Story() {
         }
     }, [setGameState])
 
-
     const handleClick = () => {
-        setGameState((prevState) => ['game', prevState[1]])
+        setGameState( { vocab: storyPOS[gameState.storyIndex] })
     }
 
     return <>
@@ -36,7 +35,7 @@ export default function Story() {
                 textAlign="center"
                 position={[0, 0, 0]}
             >
-                {script[gameState[1]]}
+                {script[gameState.storyIndex]}
             </Text>
         </Float>
     </>

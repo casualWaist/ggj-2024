@@ -12,7 +12,6 @@ import Plinko from "./components/Plinko.tsx"
 import Title from "./components/Title.tsx"
 import Story from "./components/Story.tsx"
 import Result from "./components/Result.tsx"
-import {chosenWords} from "./components/CaptureWrapper.tsx"
 
 function App() {
 
@@ -21,24 +20,24 @@ function App() {
 
     return <>
 
-        { gameState[0] === 'pregame' ? <Title /> : null }
+        { gameState.section === 'pregame' ? <Title /> : null }
 
-        { gameState[0] === 'story' ? <Story /> : null }
+        { gameState.section === 'story' ? <Story /> : null }
 
-        { gameState[0] === 'game' ? <Plinko/> : null}
+        { gameState.section === 'game' ? <Plinko/> : null}
 
-        { ['play', 'end'].includes(gameState[0]) ?
+        { ['play', 'end'].includes(gameState.section) ?
             <Result
-                result0={chosenWords[0]}
-                result1={chosenWords[1]}
-                result2={chosenWords[2]}
-                result3={chosenWords[3]}
-                result4={chosenWords[4]}
-                result5={chosenWords[5]}
-                result6={chosenWords[6]}
-                result7={chosenWords[7]}
-                result8={chosenWords[8]}
-                result9={chosenWords[9]}
+                result0={gameState.chosen[0]}
+                result1={gameState.chosen[1]}
+                result2={gameState.chosen[2]}
+                result3={gameState.chosen[3]}
+                result4={gameState.chosen[4]}
+                result5={gameState.chosen[5]}
+                result6={gameState.chosen[6]}
+                result7={gameState.chosen[7]}
+                result8={gameState.chosen[8]}
+                result9={gameState.chosen[9]}
             />
             : null }
 

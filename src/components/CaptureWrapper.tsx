@@ -4,21 +4,20 @@
     setGameState is basically a function that can be called anywhere in the app to change the game state.
 */
 
-import React, {createContext, Dispatch, SetStateAction, useState, useRef, useEffect} from "react"
+import React, {createContext, useState, useRef, useEffect} from "react"
 import {Canvas} from "@react-three/fiber"
 
-type GameState = ['pregame' | 'story' | 'game' | 'play' | 'end', number]
-type GameStateContext = [ GameState, Dispatch<SetStateAction<GameState>>]
+export type GameState = {
+    section: 'pregame' | 'story' | 'game' | 'play' | 'end'
+    storyIndex: number
+    wordIndex: number
+    chosen: string[][]
+    wordsDisplayed: string[]
+    vocab: string[]
+}
+type GameStateContext = [ GameState, (objOrFunc: Partial<GameState> | ((prevState: GameState) => Partial<GameState>)) => void ]
 export const GameContext = createContext<GameStateContext>(null!)
 
-//Variables
-export let vocab: string[]
-export function setScriptIndex(newVocab: string[]) {
-    vocab = newVocab
-}
-
-//Global variables
-export let chosenWords: Array<string[]> = new Array<string[]>()
 // 0) verb
 // 1) adj, noun, present tense verb
 // 2) verb end in s, verb ending in ing, noun
@@ -30,17 +29,17 @@ export let chosenWords: Array<string[]> = new Array<string[]>()
 // 8) verb, #3 noun, adj
 // 9) adj, noun, #2 noun, present tense verb
 
-export let exampleChosenWords: Array<string[]> = [
-    ["hit"],
-    ["pink", "apple", "hit"],
-    ["hit", "punch", "apple"],
-    ["pink", "apple", "hit", "punch", "whack"],
-    ["apple", "apple"],
-    ["hit", "pink", "apple"],
-    ["hit", "happily", "punch", "sadly"],
-    ["uncle", "pink", "apple"],
-    ["hit", "apple", "pink"],
-    ["pink", "apple", "apple", "hit"]
+export let storyPOS: Array<string[]> = [
+    ["verb"],
+    ["adj", "noun", "verb"],
+    ["verb", "verb", "noun"],
+    ["adj", "noun", "verb", "verb", "verb"],
+    ["3/2", "noun"],
+    ["verb", "adj", "noun"],
+    ["verb", "adverb", "verb", "adverb"],
+    ["relation", "adj", "noun"],
+    ["verb", "3/2", "adj"],
+    ["adj", "noun", "2/3", "verb"]
 ]
 
 export const script: string[] = [
@@ -85,7 +84,20 @@ export const relations: string[] = [
 export default function CaptureWrapper({ children }: { children: React.ReactNode }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null!)
     //THE LINE TO CHANGE !!! CHANGE THIS FOR IMMEDIATE TESTING
-    const [ gameState, setGameState ] = useState<GameState>(['pregame', 0])
+    const [ gameState, _setGameState ] = useState<GameState>({
+        section: 'pregame',
+        storyIndex: 0,
+        wordIndex: 0,
+        chosen: [],
+        wordsDisplayed: [],
+        vocab: []
+    })
+    const setGameState = ((objOrFunc: Partial<GameState> | ((prevState: GameState) => Partial<GameState>)) =>
+        _setGameState((prevState) =>
+        ({
+            ...prevState,
+            ...(typeof objOrFunc === 'function' ? objOrFunc(prevState) : objOrFunc)
+        })))
     const music = useRef<HTMLAudioElement>(null!)
     const a = useRef(document.createElement("a"))
     const url = useRef<string>('')
@@ -100,9 +112,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     const handClick = () => {
         music.current.play()
         music.current.volume = 0.1
-        vocab = new Array<string>()
-        chosenWords = new Array<string[]>()
-        setGameState(['story', 0])
+        setGameState({ section: 'story' })
     }
 
     // Called when recording is stopped to download the video
@@ -125,7 +135,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
 
 
     useEffect(() => {
-        if (gameState[0] === 'play') {
+        if (gameState.section === 'play') {
             const chunks: Blob[] = []
             const canvas_stream = canvasRef.current!.captureStream(30); // fps
             // Create media recorder from canvas stream
@@ -140,7 +150,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
             }
             capture()
         }
-        if (gameState[0] === 'end') {
+        if (gameState.section === 'end') {
             media_recorder.current.stop()
         }
     }, [gameState])
@@ -149,9 +159,9 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         <Canvas ref={canvasRef} style={{width: '700px', height: '80%'}}>
             {children}
         </Canvas>
-        { gameState[0] === 'pregame' ? <button onClick={handClick}>Start</button> : null }
-        { gameState[0] === 'play' ? <button onClick={handClick}>Replay? </button> : null }
-        { gameState[0] === 'end' ? <button onClick={download}>Download</button> : null }
-        { gameState[0] === 'end' ? <button onClick={copy}>Copy</button> : null }
+        { gameState.section === 'pregame' ? <button onClick={handClick}>Start</button> : null }
+        { gameState.section === 'play' ? <button onClick={handClick}>Replay? </button> : null }
+        { gameState.section === 'end' ? <button onClick={download}>Download</button> : null }
+        { gameState.section === 'end' ? <button onClick={copy}>Copy</button> : null }
     </GameContext.Provider>
 }
