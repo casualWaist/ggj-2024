@@ -27,9 +27,6 @@
 
 
 .funny-button {
-  position: absolute;
-  top: 80%;
-  left: 50%;
   background-color: #0e720a;
   border: 2px solid #ffffff;
   border-radius: 50%;
@@ -38,7 +35,7 @@
   color: #ffffff;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
   animation: scaleAnimation 2s infinite alternate;
 }

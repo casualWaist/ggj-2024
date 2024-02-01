@@ -12,8 +12,6 @@ export type GameState = {
     storyIndex: number
     wordIndex: number
     chosen: string[][]
-    wordsDisplayed: string[]
-    vocab: string[]
 }
 type GameStateContext = [ GameState, (objOrFunc: Partial<GameState> | ((prevState: GameState) => Partial<GameState>)) => void ]
 export const GameContext = createContext<GameStateContext>(null!)
@@ -34,12 +32,12 @@ export let storyPOS: Array<string[]> = [
     ["adj", "noun", "verb"],
     ["verb", "verb", "noun"],
     ["adj", "noun", "verb", "verb", "verb"],
-    ["3/2", "noun"],
-    ["verb", "adj", "noun"],
+    ["3/1", "noun"],
+    ["verb", "adj", "noun", "noun"],
     ["verb", "adverb", "verb", "adverb"],
     ["relation", "adj", "noun"],
-    ["verb", "3/2", "adj"],
-    ["adj", "noun", "2/3", "verb"]
+    ["verb", "3/1", "adj"],
+    ["adj", "noun", "2/2", "verb"]
 ]
 
 export const script: string[] = [
@@ -51,18 +49,18 @@ export const script: string[] = [
     "He _____ _____ _____ in the early morning.",
     //3
     "Taking a seat next to a _____ _____ ,\n\nhe orders his hashbrowns _____ , _____ , and _____ .",
-    //4
-    "The XXX (previous noun) orders a _____ .",
+    //4 3/1 is previous noun
+    "The 3/1 orders a _____ .",
     //5
     "When the meal arrives, he exclaims:\n\n\"I _____ _____ _____ !\" and eats _____ .",
     //6
     "Murphy's stomach _____ _____ ,\n\nwhich makes Murphy _____ _____ .",
     //7
     "But then suddenly, and without warning, Murphy's _____ ,\n\nthe _____ _____ , sat down across to him.",
-    //8
-    "They started to _____ ,\n\nand the XXX (previous noun) left, _____ .",
-    //9
-    "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his XXX (previous noun), and _____ home."
+    //8 3/1 is previous noun
+    "They started to _____ ,\n\nand the 3/1 left, _____ .",
+    //9 2/2 is previous noun
+    "After this, Murphy decides it's time to head home.\n\nHe bids everyone a _____ _____ ,\n\nboards his 2/2, and _____ home."
 ]
 export const adjectives: string[] = [
     "Sticky", "Gooey", "Tasty", "Slimy", "Round", "Massive", "Tiny", "Chewy", "Cheesy", "Peppery", "Noisy", "Smelly", "Stinky", "Snooty", "Stumpy", "Wet", "Moist", "Salty", "Chuffed", "Blue", "Goofy", "Shy", "Happy", "Morose", "Somber", "Wild", "Nervous", "Nauseous", "Hyper", "Childlike", "Elderly", "Formal", "Annoying", "Lovable", "Whimsical", "Wonderful", "Magical"
@@ -88,10 +86,9 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         section: 'pregame',
         storyIndex: 0,
         wordIndex: 0,
-        chosen: [],
-        wordsDisplayed: [],
-        vocab: []
+        chosen: []
     })
+    const capturing = useRef(false)
     const setGameState = ((objOrFunc: Partial<GameState> | ((prevState: GameState) => Partial<GameState>)) =>
         _setGameState((prevState) =>
         ({
@@ -103,7 +100,6 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     const url = useRef<string>('')
     const media_recorder = useRef<MediaRecorder>(null!)
 
-    // Placeholder for changing game state
     useEffect(() => {
         music.current = new Audio('/Music/Jazz_Waffle.wav')
         music.current.loop = true
@@ -125,6 +121,10 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         a.current.download = "test.webm"
     })
 
+    const replay = () => {
+        setGameState({ section: 'story', storyIndex: 0, wordIndex: 0, chosen: [] })
+    }
+
     const download = () => {
         a.current.click()
     }
@@ -133,9 +133,8 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
         navigator.clipboard.writeText(url.current)
     }
 
-
     useEffect(() => {
-        if (gameState.section === 'play') {
+        if (gameState.section === 'play' && !capturing.current) {
             const chunks: Blob[] = []
             const canvas_stream = canvasRef.current!.captureStream(30); // fps
             // Create media recorder from canvas stream
@@ -148,6 +147,7 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
                 // Start recording using a 1s timeslice [ie data is made available every 1s)
                 media_recorder.current.start(1000)
             }
+            capturing.current = true
             capture()
         }
         if (gameState.section === 'end') {
@@ -156,12 +156,43 @@ export default function CaptureWrapper({ children }: { children: React.ReactNode
     }, [gameState])
 
     return <GameContext.Provider value={[gameState, setGameState]}>
+
         <Canvas ref={canvasRef} style={{width: '700px', height: '80%'}}>
             {children}
         </Canvas>
-        { gameState.section === 'pregame' ? <button onClick={handClick}>Start</button> : null }
-        { gameState.section === 'play' ? <button onClick={handClick}>Replay? </button> : null }
-        { gameState.section === 'end' ? <button onClick={download}>Download</button> : null }
-        { gameState.section === 'end' ? <button onClick={copy}>Copy</button> : null }
+
+        { gameState.section === 'pregame' ? <>
+            <img style={{position: "absolute"}} src="/murphytitlescreen.jpg" alt="title image" width={750}/>
+        </> : null }
+
+        <div style={{
+            display: 'flex',
+            position: 'absolute',
+            width: '80%',
+            bottom: '5%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        }}>
+
+            { gameState.section === 'pregame' ? <>
+                <button className="funny-button" onClick={handClick}>Start</button>
+            </> : null }
+
+            {['play', 'end'].includes(gameState.section) ?
+            <button className="funny-button" onClick={replay}>
+                Replay?
+            </button> : null}
+
+            {gameState.section === 'end' ?
+                <button className="funny-button" onClick={download}>
+                    Download
+                </button> : null}
+
+            {gameState.section === 'end' ?
+                <button className="funny-button" onClick={copy}>
+                    Copy
+                </button> : null}
+        </div>
+
     </GameContext.Provider>
 }
