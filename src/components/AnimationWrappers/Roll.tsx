@@ -2,7 +2,7 @@ import {ReactNode, useEffect, useRef} from "react"
 import {Group} from "three"
 import gsap from "gsap";
 
-export default function Roll({done, children}: {done: () => void, children: ReactNode}) {
+export default function Roll({children}: {children: ReactNode}) {
     const groupRef = useRef<Group>(null!)
 
     useEffect(() => {

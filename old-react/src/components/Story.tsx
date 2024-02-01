@@ -31,7 +31,7 @@ export default function Story() {
                 words = ["adj", "noun", "verb", "verb", "verb"]
                 break;
             case 4:
-                words = ["3/2", "noun"]
+                words = ["3/1", "noun"]
                 break;
             case 5:
                 words = ["verb", "adj", "noun"]
@@ -43,10 +43,10 @@ export default function Story() {
                 words = ["relation", "adj", "noun"]
                 break;
             case 8:
-                words = ["verb", "3/2", "adj"]
+                words = ["verb", "3/1", "adj"]
                 break;
             case 9:
-                words = ["adj", "noun", "2/3", "verb"]
+                words = ["adj", "noun", "2/2", "verb"]
                 break;
             default:
                 words = ["error"]
