@@ -25,9 +25,12 @@ const Burger = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicE
     mat.map = materials['Material.001'].map
   return (
     <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.burger.geometry} material={mat} rotation={[Math.PI, 0, 0]} position={[0, 0.65, 0]}>
+      <mesh geometry={nodes.burger.geometry} material={mat} rotation={[Math.PI, 0, 0]}>
         <Outlines />
       </mesh>
+      <group position={[0, -0.25, 1]} rotation={[0, Math.PI, 0]} scale={0.5}>
+        {props.children}
+      </group>
     </group>
   )
 })

@@ -25,9 +25,12 @@ const Fries = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicEl
     mat.map = materials['Material.001'].map
   return (
     <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.fries.geometry} material={mat} position={[0, 0.65, 0]}>
+      <mesh geometry={nodes.fries.geometry} material={mat}>
         <Outlines />
       </mesh>
+      <group position={[0, 0, 1]} rotation={[0, Math.PI, 0]} scale={0.5}>
+            {props.children}
+      </group>
     </group>
   )
 })

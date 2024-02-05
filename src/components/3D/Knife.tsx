@@ -19,9 +19,12 @@ const Knife = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicEl
     mat.map = materials['Material.001'].map
   return (
     <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.knife.geometry} material={mat} scale={[0.806, 0.984, 0.984]}>
+      <mesh geometry={nodes.knife.geometry} material={mat}>
         <Outlines />
       </mesh>
+      <group position={[0, 0.75, 1]} rotation={[0, Math.PI, 0]} scale={0.5}>
+        {props.children}
+      </group>
     </group>
   )
 })

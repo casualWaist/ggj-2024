@@ -25,9 +25,12 @@ const Soda = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicEle
     mat.map = materials['Material.001'].map
   return (
     <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.soda.geometry} material={mat} position={[0, 0.65, 0]}>
+      <mesh geometry={nodes.soda.geometry} material={mat}>
         <Outlines />
       </mesh>
+      <group position={[0, 0.5, 0.3]} rotation={[0, Math.PI, 0]} scale={0.125}>
+        {props.children}
+      </group>
     </group>
   )
 })

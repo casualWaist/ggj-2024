@@ -20,7 +20,7 @@ const FishWithLegs = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.Intr
   mat.map = materials['Material.001'].map
   return (
     <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.fishlegs.geometry} material={mat} rotation={[Math.PI / 2, 0, 0]}>
+      <mesh geometry={nodes.fishlegs.geometry} material={mat} rotation={[Math.PI * 0.5, 0, 0]}>
         <Outlines />
       </mesh>
     </group>
