@@ -23,15 +23,15 @@ const Cabbage = forwardRef<THREE.Group, Props>((props: Props, ref) => {
   const { nodes, materials } = useGLTF('/3DModels/Cabbage.glb') as GLTFResult
 
   return (
-    <group ref={ref} {...props} dispose={null}>
-      <mesh geometry={nodes.cabbage.geometry} rotation={[0, -1.199, 0]}>
-        <Outlines />
-        <meshBasicMaterial map={materials['Material.001'].map} />
-      </mesh>
+      <group ref={ref} {...props} dispose={null}>
+        <mesh geometry={nodes.cabbage.geometry} position={[0, 1.25, 0]} rotation={[0, -1.199, 0]}>
+          <Outlines/>
+          <meshBasicMaterial map={materials['Material.001'].map}/>
+        </mesh>
         <group position={[0, 0, 1.5]} rotation={[0, Math.PI, 0]} scale={0.5}>
           {props.children}
         </group>
-    </group>
+      </group>
   )
 })
 export default Cabbage

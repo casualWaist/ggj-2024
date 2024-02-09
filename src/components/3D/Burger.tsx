@@ -24,14 +24,14 @@ const Burger = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicE
   const mat = new THREE.MeshBasicMaterial()
     mat.map = materials['Material.001'].map
   return (
-    <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.burger.geometry} material={mat} rotation={[Math.PI, 0, 0]}>
-        <Outlines />
-      </mesh>
-      <group position={[0, -0.25, 1]} rotation={[0, Math.PI, 0]} scale={0.5}>
-        {props.children}
+      <group {...props} ref={ref} dispose={null}>
+          <mesh geometry={nodes.burger.geometry} position={[0, 0.95, 0]} material={mat} rotation={[Math.PI, 0, 0]}>
+              <Outlines/>
+          </mesh>
+          <group position={[0, -0.25, 1]} rotation={[0, Math.PI, 0]} scale={0.5}>
+              {props.children}
+          </group>
       </group>
-    </group>
   )
 })
 export default Burger

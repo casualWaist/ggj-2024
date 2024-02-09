@@ -20,11 +20,11 @@ const Fish = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicEle
   const mat = new THREE.MeshBasicMaterial()
   mat.map = materials['Material.001'].map
   return (
-    <group {...props} ref={ref} dispose={null} rotation={[Math.PI * 0.5, 0, 0]}>
-      <mesh geometry={nodes.fish.geometry} material={mat}>
-        <Outlines />
-      </mesh>
-    </group>
+      <group {...props} ref={ref} dispose={null}>
+        <mesh geometry={nodes.fish.geometry} position={[0, 0.85, 0]} rotation={[Math.PI * 0.5, 0, 0]} material={mat}>
+          <Outlines/>
+        </mesh>
+      </group>
   )
 })
 export default Fish

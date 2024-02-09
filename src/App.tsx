@@ -7,7 +7,7 @@
 
 import { useContext} from "react"
 import {GameContext} from "./components/CaptureWrapper.tsx"
-import {PerspectiveCamera} from "@react-three/drei"
+import {PerspectiveCamera, Text} from "@react-three/drei"
 import Plinko from "./components/Plinko.tsx"
 import Story from "./components/Story.tsx"
 import Result from "./components/Result.tsx"
@@ -23,10 +23,17 @@ function App() {
 
         { gameState.section === 'game' ? <Plinko/> : null}
 
-        { ['play', 'end'].includes(gameState.section) ?
-            <Result /> : null }
+        { gameState.section === 'play' ? <Result /> : null }
 
-        <color attach="background" args={['hotpink']} />
+        { gameState.section === 'end' ?
+            <Text scale={0.35}
+                color="white"
+                textAlign="center"
+                position={[0, 1, 0]}>
+            The end! Thanks for playing!
+        </Text> : null }
+
+        <color attach="background" args={['#001c6e']} />
         <ambientLight />
         <PerspectiveCamera makeDefault position={[0, 0, 10]} />
     </>

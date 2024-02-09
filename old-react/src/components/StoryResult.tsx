@@ -24,8 +24,8 @@ export default function StoryResult( ) {
     scriptIndex = 0
     unload
     textAppear(0)
-    
-    
+
+
     const handleClick = () => {
         scriptIndex++
         if(scriptIndex == script.length){
@@ -50,7 +50,7 @@ export default function StoryResult( ) {
                 color="black"
                 textAlign="center"
                 position={[0, 3.5, 0]}
-            > 
+            >
                 { needReload ? combinedScript: combinedScript}
             </Text>
         </Float>
@@ -242,7 +242,7 @@ function nounAppear(num: number) {
             case "Pasta":
                 setPasta(true)
                 break;
-            case "French fries":
+            case "Fries":
                 setFrenchFries(true)
                 break;
             case "Hot dog":

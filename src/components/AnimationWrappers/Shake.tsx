@@ -1,36 +1,50 @@
-import {ReactNode, useEffect, useRef} from "react"
-import {Group} from "three"
-import gsap from "gsap";
+import {forwardRef, ReactNode, useImperativeHandle, useRef} from "react"
+import {Group, Vector3} from "three"
+import {useFrame} from "@react-three/fiber";
 
-export default function Shake({children}: {children: ReactNode}) {
+type Props = {
+    go: boolean,
+    violence?: number,
+    duration?: number,
+    repeat?: boolean,
+    children: ReactNode
+} & JSX.IntrinsicElements['group']
+
+const Shake = forwardRef(
+    ({go, violence = 1, repeat = true, duration = 1, children, ...props}: Props, ref) => {
     const groupRef = useRef<Group>(null!)
+    const subGroupRef = useRef<Group>(null!)
 
-    useEffect(() => {
-        const x = groupRef.current.position.x
-        const y = groupRef.current.position.y
-        const ctx = gsap.context(() => {
-            const tl = gsap.timeline({ repeat: -1 })
-            tl.to(groupRef.current.position, {
-                x: 0.1 + x,
-                y: 0.2 * 0.25 + y,
-                duration: Math.random() * 0.125
-            })
-            tl.to(groupRef.current.position, {
-                x: -0.3 + x,
-                y: 0.1 + y,
-                duration: Math.random() * 0.125
-            })
-            tl.to(groupRef.current.position, {
-                x: 0.2 + x,
-                y: -0.1 + y,
-                duration: 0.125
-            })
-        })
-        return () => ctx.kill(false)
-    }, [])
+    useImperativeHandle(ref, () => ({ group: groupRef.current }))
+    let dur = Math.random() * 0.1
+    let x = 0
+    let toPoint = new Vector3(
+        (Math.random() - 0.5) * violence,
+        (Math.random() - 0.5) * violence,
+        (Math.random() - 0.5) * violence
+    )
 
-    return <group ref={groupRef}>
-        { children }
+    useFrame((_, delta) => {
+        if (go && duration > x) {
+            if (dur <= 0) {
+                toPoint = new Vector3(
+                    (Math.random() - 0.5) * violence,
+                    (Math.random() - 0.5) * violence,
+                    (Math.random() - 0.5) * violence
+                )
+                dur = Math.random() * 0.1
+            }
+            subGroupRef.current.position.lerp(toPoint, 1 - dur)
+            dur -= delta
+            if (!repeat) x += delta
+        }
+    })
+
+    return <group ref={groupRef} {...props}>
+        <group ref={subGroupRef}>
+            {children}
+        </group>
     </group>
+})
 
-}
+export default Shake

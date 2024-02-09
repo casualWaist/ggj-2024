@@ -24,14 +24,14 @@ const Fries = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.IntrinsicEl
   const mat = new THREE.MeshBasicMaterial()
     mat.map = materials['Material.001'].map
   return (
-    <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.fries.geometry} material={mat}>
-        <Outlines />
-      </mesh>
-      <group position={[0, 0, 1]} rotation={[0, Math.PI, 0]} scale={0.5}>
-            {props.children}
+      <group {...props} ref={ref} dispose={null}>
+          <mesh geometry={nodes.fries.geometry} position={[0, 1, 0]} material={mat}>
+              <Outlines/>
+          </mesh>
+          <group position={[0, 0, 1]} rotation={[0, Math.PI, 0]} scale={0.5}>
+              {props.children}
+          </group>
       </group>
-    </group>
   )
 })
 export default Fries

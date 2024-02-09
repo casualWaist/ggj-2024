@@ -144,7 +144,7 @@ export default function Plinko() {
 
     }
 
-    return <Physics debug gravity={[0, -1, 0]}>
+    return <Physics gravity={[0, -1, 0]}>
 
         <Layout
             handleCollision={handleCollision}
@@ -315,7 +315,7 @@ function DropObj() {
     return <>
         { go ? null :<mesh onPointerDown={handleClick} position={[0, 0, -1]}>
             <planeGeometry args={[10, 10, 1, 1]}/>
-            <meshStandardMaterial color="gray" transparent opacity={0}/>
+            <meshStandardMaterial color="gray" transparent depthWrite={false} opacity={0}/>
         </mesh> }
 
         { go ? <RigidBody mass={25} ref={cubeRef} position={[xyPos.current.x, xyPos.current.y, 0]} friction={0}>
@@ -455,6 +455,7 @@ function FloorSensor({word, pos, width, handleCollision}: {
                floatIntensity={0.5}>
             <Text
                 fontSize={0.5}
+                color={'white'}
                 position={[pos[0], pos[1] + 0.5, 1]}>
                 {word}
             </Text>
@@ -474,24 +475,24 @@ function Barriers() {
         {/* Left Wall */}
         <RigidBody type='fixed' position={[-5, 0, 0]}>
             <mesh>
-                <boxGeometry args={[1, 9]} />
-                <meshBasicMaterial color="gray" />
+                <boxGeometry args={[1, 9]}/>
+                <meshStandardMaterial color="gray" transparent opacity={0}/>
             </mesh>
         </RigidBody>
 
         {/* Right Wall */}
         <RigidBody type='fixed' position={[5, 0, 0]}>
             <mesh>
-                <boxGeometry args={[1, 9]} />
-                <meshBasicMaterial color="gray" />
+                <boxGeometry args={[1, 9]}/>
+                <meshStandardMaterial color="gray" transparent opacity={0}/>
             </mesh>
         </RigidBody>
 
         {/* Ceiling */}
         <RigidBody type='fixed' position={[0, 5, 0]} rotation={[0, 0, Math.PI * 0.5]}>
             <mesh>
-                <boxGeometry args={[1, 9]} />
-                <meshBasicMaterial color="gray" />
+                <boxGeometry args={[1, 9]}/>
+                <meshStandardMaterial color="gray" transparent opacity={0}/>
             </mesh>
         </RigidBody>
 

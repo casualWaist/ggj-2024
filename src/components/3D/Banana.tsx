@@ -22,12 +22,12 @@ const Banana = forwardRef<Group, Props>((props: Props, ref) => {
   mat.map = materials['color chart'].map
   return (
       <group ref={ref} {...props} dispose={null}>
-        <mesh geometry={nodes.banana_one_mat.geometry} material={mat} scale={0.5}>
-          <Outlines/>
-        </mesh>
-        <group position={[0, 1.25, 0.25]} rotation={[0, Math.PI, 0]} scale={0.5}>
-          {props.children}
-        </group>
+          <mesh geometry={nodes.banana_one_mat.geometry} position={[0, 1.6, 0]} material={mat} scale={0.5}>
+              <Outlines/>
+          </mesh>
+          <group position={[0, 1.25, 0.25]} rotation={[0, Math.PI, 0]} scale={0.5}>
+              {props.children}
+          </group>
       </group>
   )
 })

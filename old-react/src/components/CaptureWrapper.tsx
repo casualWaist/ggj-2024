@@ -75,7 +75,7 @@ export const adverbs: string[] = [
     "Nasally", "Rapidly", "Boisterously", "Doggedly", "Flatulently", "Angrily", "Noisily", "Tiredly", "Clumsily", "Excitedly", "Hurridly", "Worrily", "Daringly", "Sheepishly", "Flimsily", "Aggresively", "Passive-aggresively", "Sleepily", "Candidly", "Silently", "Loudly", "Brightly", "Invisibly", "Slowly", "Hungrily"
 ]
 export const nouns: string[] = [
-    "Banana", "Banana peel", "Donut", "Bagel", "Crab", "Monkey", "Eye", "Knife", "Cabbage", "Tire", "Fish", "Pasta", "French fries", "Hot dog", "Burger", "Soda", "Bug", "Butter", "Dog", "Cheese", "Fridge", "Gummy worm", "Ice cream", "Mug", "Worm", "Rock", "Scooter", "Snake", "Spring", "Toast", "Fly", "Coffin", "Lips", "Forklift", "Reverse mermaid"
+    "Banana", "Banana peel", "Donut", "Bagel", "Crab", "Monkey", "Eye", "Knife", "Cabbage", "Tire", "Fish", "Pasta", "Fries", "Hot dog", "Burger", "Soda", "Bug", "Butter", "Dog", "Cheese", "Fridge", "Gummy worm", "Ice cream", "Mug", "Worm", "Rock", "Scooter", "Snake", "Spring", "Toast", "Fly", "Coffin", "Lips", "Forklift", "Reverse mermaid"
 ]
 export const relations: string[] = [
     "Father", "Mother", "Brother", "Sister", "Grandfather", "Papa", "Mama", "Sibling", "Rival", "Enemy", "Best friend", "Mortal enemy", "Lawyer", "Dentist", "Client", "Caretaker", "Therapist", "Guardian angel"

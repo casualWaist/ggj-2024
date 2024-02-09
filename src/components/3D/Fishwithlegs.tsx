@@ -19,11 +19,11 @@ const FishWithLegs = forwardRef<Group<Object3DEventMap>, Props>((props: JSX.Intr
   const mat = new THREE.MeshBasicMaterial()
   mat.map = materials['Material.001'].map
   return (
-    <group {...props} ref={ref} dispose={null}>
-      <mesh geometry={nodes.fishlegs.geometry} material={mat} rotation={[Math.PI * 0.5, 0, 0]}>
-        <Outlines />
-      </mesh>
-    </group>
+      <group {...props} ref={ref} dispose={null}>
+        <mesh geometry={nodes.fishlegs.geometry} position={[0, 1.75, 0]} material={mat} rotation={[Math.PI * 0.5, 0, 0]}>
+          <Outlines/>
+        </mesh>
+      </group>
   )
 })
 export default FishWithLegs

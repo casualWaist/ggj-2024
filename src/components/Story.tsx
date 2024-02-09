@@ -1,12 +1,15 @@
 import {useContext, useEffect, useRef} from "react"
-import { Text, Float } from "@react-three/drei"
+import {Text, Float, Stars, Hud, PerspectiveCamera} from "@react-three/drei"
 import {GameContext, script, storyPOS} from "./CaptureWrapper"
 import gsap from "gsap"
-import { Mesh } from "three"
+import {Group, Mesh} from "three"
+import WaffleHouseExt from "./3D/WaffleHouseExt.tsx"
+import {useFrame} from "@react-three/fiber"
 
 export default function Story() {
     const [ gameState, setGameState ] = useContext(GameContext)
     const textRef = useRef<Mesh>(null!)
+    const wfRef = useRef<Group>(null!)
     let display = script[gameState.storyIndex]
 
     function fixTense(word: string, wordIndex: number) {
@@ -62,7 +65,7 @@ export default function Story() {
                 case 'Knife':
                     word = 'Knives'
                     break
-                case 'French Fries':
+                case 'Fries':
                     break
                 default:
                     word += 's'
@@ -99,30 +102,53 @@ export default function Story() {
         if (['game', 'play'].includes(gameState.section)) {
             const tl = gsap.timeline()
             tl.to(textRef.current.position, {y: 2.5, duration: 1})
+            if (gameState.section === 'game'){
+                const tlWH = gsap.timeline()
+                tlWH.to(wfRef.current.position, {y: -120, duration: 1})
+            }
         } else {
             const tl = gsap.timeline()
-            tl.to(textRef.current.position, {y: 0, duration: 1})
+            tl.to(textRef.current.position, {y: 1, duration: 1})
+            if (gameState.section === 'story') {
+                const tlWH = gsap.timeline()
+                tlWH.to(wfRef.current.position, {y: -30, duration: 1})
+            }
         }
     }, [setGameState])
+
+    useFrame((_, delta) => {
+        if (gameState.section === 'story') {
+            wfRef.current.rotation.y += delta * 0.25
+        }
+    })
 
     return <>
         { gameState.section === 'story' ? <mesh onClick={pd} position={[0, 0, 1]}>
             <planeGeometry args={[100, 100, 1, 1]}/>
             <meshStandardMaterial color="gray" transparent opacity={0}/>
         </mesh> : null}
-        <Float
-            speed={5}
-            rotationIntensity={.35}
-            floatIntensity={1}>
-            <Text
-                ref={textRef}
-                scale={[0.35, 0.35, 0.35]}
-                color="black"
-                textAlign="center"
-                position={[0, 0, 0]}
-            >
-                {display}
-            </Text>
-        </Float>
+        <Hud>
+            <Float
+                speed={5}
+                rotationIntensity={.35}
+                floatIntensity={1}>
+                <Text
+                    ref={textRef}
+                    scale={0.35}
+                    color="white"
+                    textAlign="center"
+                    outlineWidth={0.1}
+                    lineHeight={1}
+                    position={[0, 1, 0]}>
+                    {display}
+                </Text>
+            </Float>
+            <PerspectiveCamera makeDefault position={[0, 0, 10]}/>
+        </Hud>
+        <Stars depth={500} count={10000} factor={8}/>
+        { ['story', 'game'].includes(gameState.section) ?
+            <WaffleHouseExt ref={wfRef}
+                         position={[-20, -150, -120]}
+                         rotation={[Math.PI * 0.05, -Math.PI * 0.5, 0]}/> : null }
     </>
 }
